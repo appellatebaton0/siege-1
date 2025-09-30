@@ -6,17 +6,23 @@ func _init() -> void:
 
 signal spawning
 
-@onready var options_component:OptionsSpawnerComponent
-@onready var position_component:PositionSpawnerComponent
-@onready var rotation_component:RotationSpawnerComponent
-@onready var velocity_component:VelocitySpawnerComponent
+## Spawns nodes from PackedScenes according to given parameters.
+
+## The value to get options from.
+@export var options_value:DynamicScenesValue
+## The value to set the position as. Defaults to the spawner's position.
+@export var position_value:DynamicVector2Value
+## The value to set the rotation as. Defaults to 0.0.
+@export var rotation_value:DynamicValue
+## The value to set the velocity to. Defaults to (0,0).
+@export var velocity_value:DynamicVector2Value
 
 ## The place newly added objects should go
-@export var main:Node
-## Alternative option, set the group name to find main in the tree.
-@export var main_group:String
+@export var main:DynamicNodeValue
 ## The condition for spawning something. Empty = always true
 @export var condition:DynamicCondition
+## Whether or not to run down the spawn_interval regardless of whether the condition is true.
+@export var cooldown_ignores_condition := false
 
 @export var spawn_limit := 0 ## How many actors this spawner can create at maximum (-1 = infinite)
 var spawned_so_far := 0
@@ -27,23 +33,6 @@ var sent_signal := false ## Whether the signal's been sent this go around.
 @export var spawn_time := 0.0 ## The time before the first spawn
 
 
-func _ready() -> void:
-	
-	if main_group != null and main_group != "":
-		main = get_tree().get_first_node_in_group(main_group)
-	
-	for child in get_children():
-		if child is OptionsSpawnerComponent:
-			options_component = child
-		elif child is VelocitySpawnerComponent:
-			velocity_component = child
-		elif child is RotationSpawnerComponent:
-			rotation_component = child
-		elif child is PositionSpawnerComponent:
-			position_component = child
-		elif child is DynamicCondition and condition == null:
-			condition = child
-
 func get_actor_motion_component(from:Actor) -> MotionComponent:
 	for component in from.get_components():
 		if component is MotionComponent:
@@ -51,15 +40,15 @@ func get_actor_motion_component(from:Actor) -> MotionComponent:
 	return null
 
 func spawn():
-	for options in options_component.get_options():
-		var new:Actor = options.instantiate()
+	for option in options_value.value():
+		var new:Actor = option.instantiate()
 		
 		## Get transform
-		var global_position:Vector2 = position_component.get_position() if position_component != null else me.global_position
-		var rotation:float   = deg_to_rad(rotation_component.get_rotation()) if rotation_component != null else 0.0
-		var velocity:Vector2 = velocity_component.get_velocity() if velocity_component != null else Vector2.ZERO
+		var global_position:Vector2 = position_value.value() if position_value != null else me.global_position
+		var rotation:float = rotation_value.value() if rotation_value != null else 0.0
+		var velocity:Vector2 = velocity_value.value() if velocity_value != null else Vector2.ZERO
 
-		main.add_child(new)
+		main.value().add_child(new)
 		
 		# Apply position & rotation
 		new.global_position = global_position
@@ -71,8 +60,11 @@ func spawn():
 
 func _process(delta: float) -> void:
 	if auto_spawn and actor.is_active():
-		if condition.value() and (spawned_so_far < spawn_limit or spawn_limit < 0):
+		if cooldown_ignores_condition:
 			spawn_time = move_toward(spawn_time, spawn_interval, delta)
+		if (condition == null or condition.value()) and (spawned_so_far < spawn_limit or spawn_limit < 0):
+			if not cooldown_ignores_condition:
+				spawn_time = move_toward(spawn_time, spawn_interval, delta)
 			
 			if spawn_time >= spawn_signal_interval and not sent_signal:
 				spawning.emit()

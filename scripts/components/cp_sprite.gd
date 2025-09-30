@@ -4,7 +4,9 @@ var me:Sprite2D = get_me()
 func _init() -> void:
 	component_id = "Sprite"
 
+## If set, grabs its texture from this resource component
 @export var resource_component:ResourceComponent
+## If set, and resource_component set, this is the value to grab from the resource.
 @export var resource_value:String
 
 func _ready() -> void:

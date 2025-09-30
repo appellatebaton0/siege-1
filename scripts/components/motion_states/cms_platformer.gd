@@ -1,4 +1,6 @@
 class_name PlatformerControlMotionState extends ControlMotionState
+func _init():
+	component_id = "PlatformerControlMotionState"
 
 ## Allows the actor to be controlled like a platformer.
 

@@ -2,6 +2,7 @@ class_name DynamicSingleGroupValue extends DynamicNodeValue
 
 ## Grabs one node from a group.
 
+## The name of the group to grab from.
 @export var group_name:String
 
 ## The index from the group to return. 0 for get_first_node_in_group

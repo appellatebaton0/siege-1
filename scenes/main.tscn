@@ -1,4 +1,140 @@
-[gd_scene format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=23 format=4 uid="uid://chm3si0nicqxd"]
+
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://bri530rv5enww" path="res://assets/resources/tileset.tres" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="3_pm3ni"]
+[ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="3_tbgi4"]
+[ext_resource type="Script" uid="uid://emk4mohj4ubh" path="res://scripts/components/motion_states/cms_platformer.gd" id="3_tefeu"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="4_gqmmt"]
+[ext_resource type="Script" uid="uid://comgodelutnps" path="res://scripts/components/cp_look.gd" id="5_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://ctvjgw7gos24a" path="res://scenes/components/cp_spawner.tscn" id="6_eb6dy"]
+[ext_resource type="Script" uid="uid://c7m8cx6r12svp" path="res://scripts/components/motion_states/ms_mouse.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://dfmg4s4valta2" path="res://scripts/dynamic_values/scenes/ds_random.gd" id="8_choun"]
+[ext_resource type="PackedScene" uid="uid://800upw36t4ln" path="res://scenes/actors/penny.tscn" id="9_ya4ey"]
+[ext_resource type="Script" uid="uid://dydglnka2ndct" path="res://scripts/dynamic_values/float/df_cast.gd" id="10_a8y0u"]
+[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="11_jkv2x"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="12_jbj1t"]
+[ext_resource type="Script" uid="uid://ufmdanene3ff" path="res://scripts/dynamic_values/vec2/dv2_manual.gd" id="13_jkv2x"]
+[ext_resource type="Script" uid="uid://dx62hdsswpsqh" path="res://scripts/dynamic_values/dv_input.gd" id="14_jbj1t"]
+[ext_resource type="Script" uid="uid://c3lp8v776obwx" path="res://scripts/dynamic_values/condition/dc_cast.gd" id="14_muem4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(16, 24)
+
+[sub_resource type="Gradient" id="Gradient_o6xl0"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
+gradient = SubResource("Gradient_o6xl0")
+width = 16
+height = 24
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tefeu"]
+texture = ExtResource("3_jyhfs")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_o6xl0"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 11
+sources/0 = SubResource("TileSetAtlasSource_tefeu")
 
 [node name="Main" type="Node2D" groups=["Main"]]
 rotation = 0.00023596727
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource("3_pm3ni")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Motion" parent="Player" instance=ExtResource("2_sugp2")]
+collision_layer = 2
+collision_mask = 5
+
+[node name="PlatformerControlMotionState" type="Node" parent="Player/CP_Motion"]
+script = ExtResource("3_tefeu")
+jump_velocity = 250.0
+floor_acceleration = 500.0
+air_acceleration = 500.0
+floor_friction = 500.0
+air_friction = 500.0
+gravity_multiplier = 0.7
+metadata/_custom_type_script = "uid://emk4mohj4ubh"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CP_Motion"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="CP_Sprite" parent="Player" instance=ExtResource("3_tbgi4")]
+texture = SubResource("GradientTexture2D_tipki")
+
+[node name="Gun" type="Node2D" parent="Player"]
+script = ExtResource("5_o6xl0")
+
+[node name="GetMouse" type="Node" parent="Player/Gun"]
+script = ExtResource("4_gqmmt")
+group_name = "Mouse"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="BulletSpawner" parent="Player/Gun" node_paths=PackedStringArray("options_value", "rotation_value", "velocity_value", "main", "condition") instance=ExtResource("6_eb6dy")]
+position = Vector2(12.000233, 0.9971684)
+options_value = NodePath("Options")
+rotation_value = NodePath("Rotation")
+velocity_value = NodePath("Velocity")
+main = NodePath("GetMain")
+condition = NodePath("FireInput")
+cooldown_ignores_condition = true
+spawn_limit = -1
+auto_spawn = true
+
+[node name="GetMain" type="Node" parent="Player/Gun/BulletSpawner"]
+script = ExtResource("4_gqmmt")
+group_name = "Main"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Options" type="Node" parent="Player/Gun/BulletSpawner"]
+script = ExtResource("8_choun")
+options = Array[PackedScene]([ExtResource("9_ya4ey")])
+metadata/_custom_type_script = "uid://dfmg4s4valta2"
+
+[node name="Rotation" type="Node" parent="Player/Gun/BulletSpawner"]
+script = ExtResource("10_a8y0u")
+metadata/_custom_type_script = "uid://dydglnka2ndct"
+
+[node name="DynamicPropertyValue" type="Node" parent="Player/Gun/BulletSpawner/Rotation"]
+script = ExtResource("11_jkv2x")
+property = "rotation"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="Player/Gun/BulletSpawner/Rotation/DynamicPropertyValue" node_paths=PackedStringArray("node")]
+script = ExtResource("12_jbj1t")
+node = NodePath("../../../..")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="Velocity" type="Node" parent="Player/Gun/BulletSpawner"]
+script = ExtResource("13_jkv2x")
+input = Vector2(250, 0)
+metadata/_custom_type_script = "uid://ufmdanene3ff"
+
+[node name="FireInput" type="Node" parent="Player/Gun/BulletSpawner"]
+script = ExtResource("14_muem4")
+metadata/_custom_type_script = "uid://c3lp8v776obwx"
+
+[node name="DynamicInputValue" type="Node" parent="Player/Gun/BulletSpawner/FireInput"]
+script = ExtResource("14_jbj1t")
+input_name = "Fire"
+metadata/_custom_type_script = "uid://dx62hdsswpsqh"
+
+[node name="Environment" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD3/wEAAAAAAAAAAAD3/wIAAAAAAAAAAAD3/wMAAAAAAAAAAAD3/wQAAAAAAAAAAAD3/wUAAAAAAAAAAAD4/wEAAAAAAAAAAAD4/wIAAAAAAAAAAAD4/wMAAAAAAAAAAAD4/wQAAAAAAAAAAAD4/wUAAAAAAAAAAAD5/wEAAAAAAAAAAAD5/wIAAAAAAAAAAAD5/wMAAAAAAAAAAAD5/wQAAAAAAAAAAAD5/wUAAAAAAAAAAAD6/wEAAAAAAAAAAAD6/wIAAAAAAAAAAAD6/wMAAAAAAAAAAAD6/wQAAAAAAAAAAAD6/wUAAAAAAAAAAAD7/wEAAAAAAAAAAAD7/wIAAAAAAAAAAAD7/wMAAAAAAAAAAAD7/wQAAAAAAAAAAAD7/wUAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD8/wMAAAAAAAAAAAD8/wQAAAAAAAAAAAD8/wUAAAAAAAAAAAD9/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wMAAAAAAAAAAAD9/wQAAAAAAAAAAAD9/wUAAAAAAAAAAAD+/wEAAAAAAAAAAAD+/wIAAAAAAAAAAAD+/wMAAAAAAAAAAAD+/wQAAAAAAAAAAAD+/wUAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAD//wMAAAAAAAAAAAD//wQAAAAAAAAAAAD//wUAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAAAAAAAAAAACAAUAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAAAAAAAAAALAAEAAAAAAAAAAAALAAIAAAAAAAAAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_o6xl0")
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Mouse" type="Node2D" parent="." groups=["Mouse"]]
+script = ExtResource("3_pm3ni")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Motion" parent="Mouse" instance=ExtResource("2_sugp2")]
+
+[node name="MouseMotionState" type="Node" parent="Mouse/CP_Motion"]
+script = ExtResource("6_tefeu")
+metadata/_custom_type_script = "uid://c7m8cx6r12svp"
