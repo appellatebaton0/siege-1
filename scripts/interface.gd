@@ -4,7 +4,7 @@ class_name Interface
 # A class for Controls that allows them to adopt
 # functionality from Elements.
 
-# See also: Actor for Node2Ds -> Components
+# See also: Actor for Node2Ds
 
 @onready var elements:Array[Element] = get_elements()
 func get_elements(depth:int = 4, with:Node = self) -> Array[Element]:

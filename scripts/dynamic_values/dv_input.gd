@@ -1,4 +1,5 @@
 class_name DynamicInputValue extends DynamicValue
+## Returns the value of a given input action, supports just_pressed and is_pressed.
 
 ## The name of the input to look for
 @export var input_name:String = ""

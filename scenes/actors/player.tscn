@@ -1,0 +1,127 @@
+[gd_scene load_steps=22 format=3 uid="uid://du1n8cl1rn58r"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_h5w3c"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_0878f"]
+[ext_resource type="Script" uid="uid://emk4mohj4ubh" path="res://scripts/components/motion_subcomponents/motion_states/cms_platformer.gd" id="3_dferu"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="4_dferu"]
+[ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="4_t62v4"]
+[ext_resource type="Script" uid="uid://b08hg2i6n1vvx" path="res://scripts/components/motion_subcomponents/mcp_knockback.gd" id="4_uqfkb"]
+[ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="5_t62v4"]
+[ext_resource type="Script" uid="uid://comgodelutnps" path="res://scripts/components/cp_look.gd" id="5_uqfkb"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="6_642so"]
+[ext_resource type="PackedScene" uid="uid://ctvjgw7gos24a" path="res://scenes/components/cp_spawner.tscn" id="7_afsss"]
+[ext_resource type="Script" uid="uid://dfmg4s4valta2" path="res://scripts/dynamic_values/scenes/ds_random.gd" id="8_6a6mx"]
+[ext_resource type="PackedScene" uid="uid://800upw36t4ln" path="res://scenes/actors/penny.tscn" id="9_j3wsw"]
+[ext_resource type="Script" uid="uid://dydglnka2ndct" path="res://scripts/dynamic_values/float/df_cast.gd" id="10_ds2sr"]
+[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="11_6xqls"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="12_3hvrq"]
+[ext_resource type="Script" uid="uid://ufmdanene3ff" path="res://scripts/dynamic_values/vec2/dv2_manual.gd" id="13_bwi5y"]
+[ext_resource type="Script" uid="uid://c3lp8v776obwx" path="res://scripts/dynamic_values/condition/dc_cast.gd" id="14_18oyn"]
+[ext_resource type="Script" uid="uid://dx62hdsswpsqh" path="res://scripts/dynamic_values/dv_input.gd" id="15_f6erl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(16, 24)
+
+[sub_resource type="Gradient" id="Gradient_o6xl0"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
+gradient = SubResource("Gradient_o6xl0")
+width = 16
+height = 24
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_h5w3c")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Motion" parent="." instance=ExtResource("2_0878f")]
+collision_layer = 2
+
+[node name="PlatformerControl" type="Node" parent="CP_Motion"]
+script = ExtResource("3_dferu")
+jump_velocity = 250.0
+floor_acceleration = 500.0
+air_acceleration = 500.0
+floor_friction = 500.0
+air_friction = 500.0
+gravity_multiplier = 0.7
+metadata/_custom_type_script = "uid://emk4mohj4ubh"
+
+[node name="Knockback" type="Node" parent="CP_Motion"]
+script = ExtResource("4_uqfkb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="CP_Area" parent="." instance=ExtResource("4_dferu")]
+collision_layer = 2
+collision_mask = 4
+
+[node name="HurtboxAreaSubComponent" type="Node" parent="CP_Area"]
+script = ExtResource("5_t62v4")
+collision_mask = 4
+metadata/_custom_type_script = "uid://cjxtdojc775br"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="CP_Sprite" parent="." instance=ExtResource("4_t62v4")]
+texture = SubResource("GradientTexture2D_tipki")
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("5_uqfkb")
+
+[node name="GetMouse" type="Node" parent="Gun"]
+script = ExtResource("6_642so")
+group_name = "Mouse"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="BulletSpawner" parent="Gun" node_paths=PackedStringArray("options_value", "rotation_value", "velocity_value", "main", "condition") instance=ExtResource("7_afsss")]
+position = Vector2(12.000233, 0.9971684)
+options_value = NodePath("Options")
+rotation_value = NodePath("Rotation")
+velocity_value = NodePath("Velocity")
+main = NodePath("GetMain")
+condition = NodePath("FireInput")
+cooldown_ignores_condition = true
+spawn_limit = -1
+auto_spawn = true
+
+[node name="GetMain" type="Node" parent="Gun/BulletSpawner"]
+script = ExtResource("6_642so")
+group_name = "Main"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Options" type="Node" parent="Gun/BulletSpawner"]
+script = ExtResource("8_6a6mx")
+options = Array[PackedScene]([ExtResource("9_j3wsw")])
+metadata/_custom_type_script = "uid://dfmg4s4valta2"
+
+[node name="Rotation" type="Node" parent="Gun/BulletSpawner"]
+script = ExtResource("10_ds2sr")
+metadata/_custom_type_script = "uid://dydglnka2ndct"
+
+[node name="DynamicPropertyValue" type="Node" parent="Gun/BulletSpawner/Rotation"]
+script = ExtResource("11_6xqls")
+property = "rotation"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="Gun/BulletSpawner/Rotation/DynamicPropertyValue" node_paths=PackedStringArray("node")]
+script = ExtResource("12_3hvrq")
+node = NodePath("../../../..")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="Velocity" type="Node" parent="Gun/BulletSpawner"]
+script = ExtResource("13_bwi5y")
+input = Vector2(250, 0)
+metadata/_custom_type_script = "uid://ufmdanene3ff"
+
+[node name="FireInput" type="Node" parent="Gun/BulletSpawner"]
+script = ExtResource("14_18oyn")
+metadata/_custom_type_script = "uid://c3lp8v776obwx"
+
+[node name="DynamicInputValue" type="Node" parent="Gun/BulletSpawner/FireInput"]
+script = ExtResource("15_f6erl")
+input_name = "Fire"
+metadata/_custom_type_script = "uid://dx62hdsswpsqh"
+
+[connection signal="hurt" from="CP_Area/HurtboxAreaSubComponent" to="CP_Motion/Knockback" method="knockback"]

@@ -1,10 +1,9 @@
-extends AreaSubComponent
-class_name DragNDropAreaSubComponent
+class_name DragNDropAreaSubComponent extends AreaSubComponent 
+## Allows an actor to be picked up by the mouse
+
 @onready var me:Node = get_me()
 func _init() -> void:
 	component_id = "DragNDropAreaSub"
-
-# Allows an actor to be picked up by the mouse
 
 ## Whether to only pick up/down an actor when the mouse is pressed
 @export var toggle:bool = false

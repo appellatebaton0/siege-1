@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://800upw36t4ln"]
+[gd_scene load_steps=10 format=3 uid="uid://800upw36t4ln"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_621c6"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_bneef"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="3_621c6"]
+[ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="4_646up"]
 [ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="4_o57oy"]
+[ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="5_bneef"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjniw"]
-size = Vector2(3, 3)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bneef"]
+size = Vector2(2, 2)
 
 [sub_resource type="Gradient" id="Gradient_lfa4b"]
 
@@ -21,8 +24,23 @@ metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 [node name="CP_Motion" parent="." instance=ExtResource("2_bneef")]
 collision_layer = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
-shape = SubResource("RectangleShape2D_bjniw")
+[node name="CP_Area" parent="." instance=ExtResource("3_621c6")]
+collision_layer = 8
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
+shape = SubResource("RectangleShape2D_bneef")
+
+[node name="HitboxAreaSubComponent" type="Node" parent="CP_Area"]
+script = ExtResource("4_646up")
+collision_mask = 4
+metadata/_custom_type_script = "uid://chjx6uy3lae5m"
 
 [node name="CP_Sprite" parent="." instance=ExtResource("4_o57oy")]
 texture = SubResource("GradientTexture2D_55ao4")
+
+[node name="FreeComponent" type="Node" parent="."]
+script = ExtResource("5_bneef")
+metadata/_custom_type_script = "uid://d25af0viaxcrw"
+
+[connection signal="collided" from="CP_Area" to="FreeComponent" method="free_actor"]

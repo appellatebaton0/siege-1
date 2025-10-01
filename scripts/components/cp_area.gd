@@ -1,11 +1,13 @@
 extends Component
 class_name AreaComponent
+## Provides an Area2D for the actor, that supports having
+## sub-functions that further mask its mask.
+
 var me:Area2D = get_me()
-
-signal collided
-
 func _init() -> void:
 	component_id = "Area"
+
+signal collided
 
 func has_overlapping_collisions() -> bool:
 	var bodies = me.get_overlapping_bodies()

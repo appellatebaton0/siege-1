@@ -1,8 +1,8 @@
 class_name PlatformerControlMotionState extends ControlMotionState
+## Allows the actor to be controlled like a platformer.
+
 func _init():
 	component_id = "PlatformerControlMotionState"
-
-## Allows the actor to be controlled like a platformer.
 
 ## How long the jump input will save, so you can hit jump before being on the ground and still jump (in seconds).
 @export var jump_buffering := 0.1
@@ -36,7 +36,7 @@ enum friction_types{
 
 ## The maximum speed the actor can reach through this (other forces can apply more momentum).
 @export var max_speed := 100.0
-var speed:float = 0.0
+
 ## How much gravity affects the actor.
 @export var gravity_multiplier := 1.0
 

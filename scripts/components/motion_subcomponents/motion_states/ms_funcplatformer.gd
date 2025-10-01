@@ -31,7 +31,7 @@ enum friction_types{
 
 ## The maximum speed the actor can reach through this (other forces can apply more momentum).
 @export var max_speed := 100.0
-var speed:float = 0.0
+
 ## How much gravity affects the actor.
 @export var gravity_multiplier := 1.0
 

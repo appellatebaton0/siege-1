@@ -9,7 +9,7 @@ func _init():
 ## The bool is whether or to run constantly,
 ## or just on contact.
 @export var functions:Dictionary[String, bool]
-## Used to find a specified component in the collider. Ignore the actor field.
+## Used to find a specified component in the collider.
 @export var component_finder:DynamicComponentValue
 
 # Look in the children for a DCV if needed.

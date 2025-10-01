@@ -1,4 +1,5 @@
 res://scenes/actors
+res://scripts/components/motion_subcomponents
 res://scripts/components
 res://assets/resources
 res://assets/resources/

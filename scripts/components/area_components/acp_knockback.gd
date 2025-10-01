@@ -1,5 +1,7 @@
 extends AreaSubComponent
 class_name KnockbackAreaSubComponent
+## Does knockback to a MotionComponent upon colliding with it.
+
 func _init() -> void:
 	component_id = "KnockbackAreaSub"
 

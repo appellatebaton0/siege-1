@@ -1,0 +1,69 @@
+[gd_scene load_steps=12 format=3 uid="uid://msschc5mwqdx"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_d6d7m"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_uyvl8"]
+[ext_resource type="Script" uid="uid://cpxqin5siq37c" path="res://scripts/components/motion_subcomponents/motion_states/ms_bouncefollow.gd" id="3_l158y"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="4_rkdi3"]
+[ext_resource type="Script" uid="uid://b08hg2i6n1vvx" path="res://scripts/components/motion_subcomponents/mcp_knockback.gd" id="5_me2fe"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_m238r"]
+[ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="7_enic7"]
+[ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="8_txwoq"]
+
+[sub_resource type="Gradient" id="Gradient_tipki"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_85g3d"]
+gradient = SubResource("Gradient_tipki")
+width = 24
+height = 16
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_choun"]
+size = Vector2(24, 16)
+
+[node name="E_Microwave" type="Node2D"]
+script = ExtResource("1_d6d7m")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_85g3d")
+
+[node name="CP_Motion" parent="." instance=ExtResource("2_uyvl8")]
+collision_layer = 4
+
+[node name="MS_BounceFollow" type="Node" parent="CP_Motion"]
+script = ExtResource("3_l158y")
+jump_velocity = 130.0
+floor_acceleration = 200.0
+air_acceleration = 200.0
+max_speed = 120.0
+gravity_multiplier = 0.4
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/MS_BounceFollow"]
+script = ExtResource("4_rkdi3")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
+shape = SubResource("RectangleShape2D_choun")
+
+[node name="Knockback" type="Node" parent="CP_Motion"]
+script = ExtResource("5_me2fe")
+
+[node name="CP_Area" parent="." instance=ExtResource("6_m238r")]
+collision_layer = 4
+collision_mask = 10
+
+[node name="Hurtbox" type="Node" parent="CP_Area"]
+script = ExtResource("7_enic7")
+collision_mask = 8
+metadata/_custom_type_script = "uid://cjxtdojc775br"
+
+[node name="Hitbox" type="Node" parent="CP_Area"]
+script = ExtResource("8_txwoq")
+collision_mask = 2
+metadata/_custom_type_script = "uid://chjx6uy3lae5m"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
+shape = SubResource("RectangleShape2D_choun")
+
+[connection signal="hurt" from="CP_Area/Hurtbox" to="CP_Motion/Knockback" method="knockback"]
+[connection signal="hurt" from="CP_Area/Hitbox" to="CP_Motion/Knockback" method="knockback"]

@@ -1,12 +1,10 @@
 class_name Actor extends Node2D
+## The base node for many custom nodes, supports function extension via Components.
+# See also: Interface for Controls
 
 signal freeing
 
-# A class for Node2Ds that allows them to adopt
-# functionality from Components.
-
-# See also: Interface for Controls -> Elements
-
+## This really shouldn't be stored here...
 @export var static_texture:Texture
 
 var active_lockers:Array[Node]

@@ -1,5 +1,7 @@
 extends Component
 class_name MotionComponent
+## Allows the actor to behave like a character, with a state machine for motion.
+
 var me:CharacterBody2D = get_me()
 func _init() -> void:
 	component_id = "Motion"
@@ -7,13 +9,23 @@ func _init() -> void:
 # Allows the motioncomponent to be overridden by any node
 var overrider:Node = null
 
-# All the childed motion states
+# All the motion states
 @onready var motion_states:Array[MotionState] = get_motion_states()
 func get_motion_states() -> Array[MotionState]:
 	var states:Array[MotionState]
 	
 	for child in get_children():
 		if child is MotionState:
+			states.append(child)
+	
+	return states
+# All the subcomponents, minus the states.
+@onready var motion_sub_components:Array[MotionSubComponent] = get_motion_sub_components()
+func get_motion_sub_components() -> Array[MotionSubComponent]:
+	var states:Array[MotionSubComponent]
+	
+	for child in get_children():
+		if child is MotionSubComponent and child is not MotionState:
 			states.append(child)
 	
 	return states
@@ -53,6 +65,8 @@ func _process(delta: float) -> void:
 						change_state(state.switch_handles[handle])
 		else:
 			state.inactive(delta)
+	for component in motion_sub_components:
+		component.active(delta)
 
 func _physics_process(delta: float) -> void:
 	# Run each state's applicable function for physics
@@ -63,6 +77,9 @@ func _physics_process(delta: float) -> void:
 				state.phys_active(delta)
 			else:
 				state.phys_inactive(delta)
+		
+		for component in motion_sub_components:
+			component.phys_active(delta)
 	
 	# Move & slide
 	me.move_and_slide()
@@ -73,6 +90,9 @@ func _physics_process(delta: float) -> void:
 				state.post_phys_active(delta)
 			else:
 				state.post_phys_inactive(delta)
+		
+		for component in motion_sub_components:
+			component.post_phys_active(delta)
 	
 	# Apply the velocity to the actor instead of the component
 	actor.global_position = me.global_position
