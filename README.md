@@ -16,5 +16,8 @@ And, as always, more building to the framework!
     - DS_Random -> Picks a random scene from an array of options
 - CP_Look -> A Node2D CP that looks at at a DV_Node.
 - CP_MotionSub -> Changed MotionStates to be extended from this, provides functionality to a CP_Motion (used to make always-on functionality)
-    - MS_BounceFollow -> Chase a node while constantly jumping
-    - MCP_Knockback -> Provides an in to *take* knockback. There's another node, ACP_Knockback, that *does* knockback to anything it hits. Different use cases.
+	- MS_BounceFollow -> Chase a node while constantly jumping
+	- MCP_Knockback -> Provides an in to *take* knockback. There's another node, ACP_Knockback, that *does* knockback to anything it hits. Different use cases.
+- EM_AutoColumn -> Automatically sets the columns of a GridContainer to be about the same as the rows
+- EM_DirectoryLoad -> Loads the contents of a directory to its parent, or loads a single scene to its parent for each file in a directory (for level buttons)
+- EM_Animator -> Allows for any signal to be tied into playing an animation from an AnimationPlayer (like a button press).

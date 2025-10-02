@@ -1,4 +1,8 @@
 res://scenes/actors
+res://scenes/elements
+res://scenes
+res://
+res://scripts/components/elements
 res://scripts/components/motion_subcomponents
 res://scripts/components
 res://assets/resources

@@ -32,6 +32,7 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 Main=""
 Mouse=""
 Player=""
+Animator=""
 
 [input]
 

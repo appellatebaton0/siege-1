@@ -1,0 +1,8 @@
+res://README.md
+res://scenes/main.tscn
+res://assets/resources/tileset.tres
+res://scripts/components/elements/em_animator.gd
+res://scripts/components/elements/em_button.gd
+res://scripts/components/elements/em_autocolumn.gd
+res://scripts/components/elements/em_directoryload.gd
+res://scenes/elements/level_button.tscn

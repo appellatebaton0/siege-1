@@ -1,8 +1,13 @@
-[gd_scene load_steps=7 format=4 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=14 format=4 uid="uid://chm3si0nicqxd"]
 
 [ext_resource type="PackedScene" uid="uid://du1n8cl1rn58r" path="res://scenes/actors/player.tscn" id="1_85g3d"]
 [ext_resource type="Texture2D" uid="uid://bri530rv5enww" path="res://assets/resources/tileset.tres" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://msschc5mwqdx" path="res://scenes/actors/e_microwave.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="6_85g3d"]
+[ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://kcbr0rkf2ua7" path="res://scripts/components/elements/em_autocolumn.gd" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://rryycqh10slx" path="res://scenes/elements/level_button.tscn" id="6_tipki"]
+[ext_resource type="Script" uid="uid://bgf1fdkr0aotd" path="res://scripts/components/elements/em_directoryload.gd" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://2d08ont6cvi5" path="res://scenes/actors/mouse.tscn" id="8_eb6dy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tefeu"]
@@ -14,6 +19,14 @@ texture = ExtResource("3_jyhfs")
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 15
 sources/0 = SubResource("TileSetAtlasSource_tefeu")
+
+[sub_resource type="Animation" id="Animation_ya4ey"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tipki"]
+_data = {
+&"RESET": SubResource("Animation_ya4ey")
+}
 
 [node name="Main" type="Node2D" groups=["Main"]]
 rotation = 0.00023596727
@@ -31,3 +44,92 @@ zoom = Vector2(3, 3)
 
 [node name="E_Microwave" parent="." instance=ExtResource("4_jyhfs")]
 position = Vector2(76, -0.017933512)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartScreen" type="Panel" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.00024414063
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/StartScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/StartScreen/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Animator" type="Node" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button"]
+script = ExtResource("6_o6xl0")
+animation_name = "test"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button/Animator" node_paths=PackedStringArray("node")]
+script = ExtResource("6_85g3d")
+node = NodePath("../../../../../../AnimationPlayer")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="LevelSelect" type="Panel" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/LevelSelect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/LevelSelect/MarginContainer"]
+layout_mode = 2
+
+[node name="AutoColumn" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/GridContainer"]
+script = ExtResource("6_tefeu")
+
+[node name="DirLoad" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/GridContainer"]
+script = ExtResource("7_o6xl0")
+loading_scene = ExtResource("6_tipki")
+directory_path = "res://scenes/actors"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control" groups=["Animator"]]
+libraries = {
+&"": SubResource("AnimationLibrary_tipki")
+}
+
+[connection signal="pressed" from="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button" to="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button/Animator" method="animate"]

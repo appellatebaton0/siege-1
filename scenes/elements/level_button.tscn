@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://rryycqh10slx"]
+
+[ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="1_smrge"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="2_de5ym"]
+
+[node name="Panel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Button" type="Button" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="AnimatorElement" type="Node" parent="MarginContainer/Button"]
+script = ExtResource("1_smrge")
+animation_name = "picked_level"
+metadata/_custom_type_script = "uid://b3tnj82s4tfu"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="MarginContainer/Button/AnimatorElement"]
+script = ExtResource("2_de5ym")
+group_name = "Animator"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/AnimatorElement" method="animate"]
