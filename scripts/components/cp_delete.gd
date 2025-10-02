@@ -1,0 +1,31 @@
+class_name CP_Delete extends Component
+## Deletes a given node via a signal.
+
+func _init():
+	component_id = "Delete"
+
+## The node to delete.
+@export var target:DynamicNodeValue
+
+func _ready() -> void:
+	if target == null:
+		for child in get_children():
+			if child is DynamicNodeValue:
+				target = child
+
+func delete():
+	var node := target.value()
+	
+	## If it's an actor, try to free it via a freecomponent,
+	## then make sure the signal's emitted anyways.
+	## This *could* cause problems?
+	if node is Actor:
+		for component in node.get_components():
+			if component is FreeComponent:
+				component.free_actor()
+				return
+		node.freeing.emit()
+	
+	## Toss the node if nothing else is handling the deletion.
+	## "Fine, I'll do it myself."
+	node.queue_free()

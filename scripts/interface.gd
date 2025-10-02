@@ -6,6 +6,9 @@ class_name Interface
 
 # See also: Actor for Node2Ds
 
+## A variant array to provide surface-level arguments to an interface.
+@export var spawn_arguments:Array[Variant] = [null, null, null, null, null]
+
 @onready var elements:Array[Element] = get_elements()
 func get_elements(depth:int = 4, with:Node = self) -> Array[Element]:
 	if depth <= 0:
@@ -20,6 +23,20 @@ func get_elements(depth:int = 4, with:Node = self) -> Array[Element]:
 		return_elements.append_array(get_elements(depth - 1, child))
 	
 	return return_elements
+
+@onready var components:Array[Component] = get_components()
+func get_components(depth:int = 4, with:Node = self) -> Array[Component]:
+	if depth <= 0:
+		return []
+	
+	var return_components:Array[Component]
+		
+	for child in with.get_children():
+		if child is Component:
+			return_components.append(child)
+		return_components.append_array(get_components(depth - 1, child))
+	
+	return return_components
 
 @onready var subinterfaces:Array[Interface] = get_subinterfaces()
 func get_subinterfaces() -> Array[Interface]:

@@ -19,5 +19,5 @@ func _ready() -> void:
 
 func animate():
 	var node := animator.value()
-	if node is AnimationPlayer:
+	if node is AnimationPlayer and animation_name != "":
 		node.play(animation_name, -1, speed_scale, speed_scale < 0)

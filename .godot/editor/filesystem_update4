@@ -1,8 +1,11 @@
-res://README.md
-res://scenes/main.tscn
+res://scenes/levels/level_2.tscn
 res://assets/resources/tileset.tres
-res://scripts/components/elements/em_animator.gd
-res://scripts/components/elements/em_button.gd
-res://scripts/components/elements/em_autocolumn.gd
+res://scripts/components/cp_modifyargument.gd
+res://scenes/main.tscn
 res://scripts/components/elements/em_directoryload.gd
-res://scenes/elements/level_button.tscn
+res://scenes/actors/e_microwave.tscn
+res://scripts/components/elements/em_label.gd
+res://scripts/dynamic_values/float/df_manual.gd
+res://scenes/actors/penny.tscn
+res://README.md
+res://scripts/actor.gd

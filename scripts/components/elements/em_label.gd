@@ -1,5 +1,10 @@
 extends Element
-class_name EM_Label
+class_name LabelElement
+## A label that can show DynamicValues
+
+func _init():
+	component_id = "LabelElement"
+
 
 @export var values:Array[DynamicValue]
 

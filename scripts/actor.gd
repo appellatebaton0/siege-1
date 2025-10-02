@@ -7,6 +7,9 @@ signal freeing
 ## This really shouldn't be stored here...
 @export var static_texture:Texture
 
+## A variant array to provide surface-level arguments to an actor.
+@export var spawn_arguments:Array[Variant] = [null, null, null, null, null]
+
 var active_lockers:Array[Node]
 func add_active_lock(node:Node) -> bool:
 	if not active_lockers.has(node):

@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://rryycqh10slx"]
+[gd_scene load_steps=7 format=3 uid="uid://rryycqh10slx"]
 
+[ext_resource type="Script" uid="uid://clxnv4jp2t4w1" path="res://scripts/interface.gd" id="1_3kiwu"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="1_smrge"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="2_de5ym"]
+[ext_resource type="Script" uid="uid://bf81f7ddjf4ou" path="res://scripts/components/cp_delete.gd" id="3_de5ym"]
+[ext_resource type="Script" uid="uid://wxua6trhimab" path="res://scripts/components/cp_add.gd" id="4_p0ssh"]
+[ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="6_3kiwu"]
 
 [node name="Panel" type="Panel"]
 anchors_preset = 15
@@ -11,6 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_3kiwu")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -27,14 +32,37 @@ theme_override_constants/margin_bottom = 15
 [node name="Button" type="Button" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="AnimatorElement" type="Node" parent="MarginContainer/Button"]
+[node name="Animate" type="Node" parent="MarginContainer/Button"]
 script = ExtResource("1_smrge")
 animation_name = "picked_level"
 metadata/_custom_type_script = "uid://b3tnj82s4tfu"
 
-[node name="DynamicSingleGroupValue" type="Node" parent="MarginContainer/Button/AnimatorElement"]
+[node name="GetAnimator" type="Node" parent="MarginContainer/Button/Animate"]
 script = ExtResource("2_de5ym")
 group_name = "Animator"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
-[connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/AnimatorElement" method="animate"]
+[node name="DeleteNode" type="Node" parent="MarginContainer/Button"]
+script = ExtResource("3_de5ym")
+
+[node name="DynamicSingleGroupValue" type="Node" parent="MarginContainer/Button/DeleteNode"]
+script = ExtResource("2_de5ym")
+group_name = "Level"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="AddNode" type="Node" parent="MarginContainer/Button"]
+script = ExtResource("4_p0ssh")
+
+[node name="DynamicSingleGroupValue" type="Node" parent="MarginContainer/Button/AddNode"]
+script = ExtResource("2_de5ym")
+group_name = "Main"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="DynamicSpawnArgumentValue" type="Node" parent="MarginContainer/Button/AddNode" node_paths=PackedStringArray("from")]
+script = ExtResource("6_3kiwu")
+from = NodePath("../../../..")
+metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
+
+[connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/Animate" method="animate"]
+[connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/DeleteNode" method="delete"]
+[connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/AddNode" method="add"]

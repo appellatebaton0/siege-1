@@ -1,9 +1,9 @@
 extends AreaSubComponent
 class_name FuncCallerAreaSubComponent # Damn these are getting long.
+## Calls functions on the colliding areas and bodies.
+
 func _init():
 	component_id = "FuncCallerAreaSub"
-
-## Calls functions on the colliding areas and bodies.
 
 ## The functions to call.
 ## The bool is whether or to run constantly,
@@ -26,7 +26,6 @@ func get_component(with:Node) -> Component:
 	return null
 
 func call_for(node:Node, repeated:bool):
-	print("called for ", node, repeated)
 	if not actor.is_active():
 		return
 	if node is Component:

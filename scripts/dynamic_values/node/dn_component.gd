@@ -5,11 +5,13 @@ class_name DynamicComponentValue
 
 ## The component_id to look for; the component's class - "Component", ie "Area" for AreaComponent
 @export var component_id:String
-@export var actor:Actor
+@export var actor:Node
 ## Get the nth occurence of this component in the actor.
 @export_range(1,100) var occurence:int = 1
 
 func value() -> Component:
+	if not (actor is Actor or actor is Interface):
+		return null
 	
 	var response:Component = null
 	

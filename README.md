@@ -19,5 +19,9 @@ And, as always, more building to the framework!
 	- MS_BounceFollow -> Chase a node while constantly jumping
 	- MCP_Knockback -> Provides an in to *take* knockback. There's another node, ACP_Knockback, that *does* knockback to anything it hits. Different use cases.
 - EM_AutoColumn -> Automatically sets the columns of a GridContainer to be about the same as the rows
-- EM_DirectoryLoad -> Loads the contents of a directory to its parent, or loads a single scene to its parent for each file in a directory (for level buttons)
+- CP_DirectoryLoad -> Loads the contents of a directory to its parent, or loads a single scene to its parent for each file in a directory (for level buttons)
 - EM_Animator -> Allows for any signal to be tied into playing an animation from an AnimationPlayer (like a button press).
+- CP_Add -> Adds a node as a child of another when called.
+- CP_Delete -> Frees a node when called
+- CP_ModifyArgument -> Modifies an actor's spawn arguments
+- DV_SpawnArgument -> Pulls an actor's spawn arguments.

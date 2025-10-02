@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://msschc5mwqdx"]
+[gd_scene load_steps=13 format=3 uid="uid://msschc5mwqdx"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_d6d7m"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_uyvl8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_m238r"]
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="7_enic7"]
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="8_txwoq"]
+[ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="9_uyvl8"]
 
 [sub_resource type="Gradient" id="Gradient_tipki"]
 
@@ -64,6 +65,14 @@ metadata/_custom_type_script = "uid://chjx6uy3lae5m"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
 shape = SubResource("RectangleShape2D_choun")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -36.0
+offset_right = 19.0
+offset_bottom = -13.0
+script = ExtResource("9_uyvl8")
+text_format = "Following {0}"
 
 [connection signal="hurt" from="CP_Area/Hurtbox" to="CP_Motion/Knockback" method="knockback"]
 [connection signal="hurt" from="CP_Area/Hitbox" to="CP_Motion/Knockback" method="knockback"]
