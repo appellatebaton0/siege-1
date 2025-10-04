@@ -1,4 +1,4 @@
-class_name DynamicRandomScenesValue extends DynamicScenesValue
+class_name DynamicRandomSceneValue extends DynamicScenesValue
 
 ## Returns a random scene from the given options.
 

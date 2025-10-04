@@ -25,3 +25,4 @@ And, as always, more building to the framework!
 - CP_Delete -> Frees a node when called
 - CP_ModifyArgument -> Modifies an actor's spawn arguments
 - DV_SpawnArgument -> Pulls an actor's spawn arguments.
+- DS_Cast -> Returns a child DV if it's a scene.

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://du1n8cl1rn58r" path="res://scenes/actors/player.tscn" id="1_vaqmb"]
 [ext_resource type="Texture2D" uid="uid://bri530rv5enww" path="res://assets/resources/tileset.tres" id="2_yncv0"]
 [ext_resource type="PackedScene" uid="uid://2d08ont6cvi5" path="res://scenes/actors/mouse.tscn" id="3_h6yfk"]
-[ext_resource type="PackedScene" uid="uid://msschc5mwqdx" path="res://scenes/actors/e_microwave.tscn" id="4_7n2ww"]
+[ext_resource type="PackedScene" uid="uid://msschc5mwqdx" path="res://scenes/actors/enemies/microwave.tscn" id="4_7n2ww"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tefeu"]
 texture = ExtResource("2_yncv0")

@@ -21,7 +21,6 @@ func _process(_delta: float) -> void:
 
 
 func _update_label():
-	print(values)
 	if len(values) < 0:
 		return
 	

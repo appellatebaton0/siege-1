@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://rryycqh10slx"]
+[gd_scene load_steps=8 format=3 uid="uid://rryycqh10slx"]
 
 [ext_resource type="Script" uid="uid://clxnv4jp2t4w1" path="res://scripts/interface.gd" id="1_3kiwu"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="1_smrge"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bf81f7ddjf4ou" path="res://scripts/components/cp_delete.gd" id="3_de5ym"]
 [ext_resource type="Script" uid="uid://wxua6trhimab" path="res://scripts/components/cp_add.gd" id="4_p0ssh"]
 [ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="6_3kiwu"]
+[ext_resource type="Script" uid="uid://cbhbn73a4gk8w" path="res://scripts/dynamic_values/scenes/ds_cast.gd" id="6_kpsvs"]
 
 [node name="Panel" type="Panel"]
 anchors_preset = 15
@@ -58,9 +59,13 @@ script = ExtResource("2_de5ym")
 group_name = "Main"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
-[node name="DynamicSpawnArgumentValue" type="Node" parent="MarginContainer/Button/AddNode" node_paths=PackedStringArray("from")]
+[node name="DynamicCastScenesValue" type="Node" parent="MarginContainer/Button/AddNode"]
+script = ExtResource("6_kpsvs")
+metadata/_custom_type_script = "uid://cbhbn73a4gk8w"
+
+[node name="DynamicSpawnArgumentValue" type="Node" parent="MarginContainer/Button/AddNode/DynamicCastScenesValue" node_paths=PackedStringArray("from")]
 script = ExtResource("6_3kiwu")
-from = NodePath("../../../..")
+from = NodePath("../../../../..")
 metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
 
 [connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/Animate" method="animate"]

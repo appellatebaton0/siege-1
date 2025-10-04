@@ -9,3 +9,12 @@ res://scripts/dynamic_values/float/df_manual.gd
 res://scenes/actors/penny.tscn
 res://README.md
 res://scripts/actor.gd
+res://scenes/actors/player.tscn
+res://scripts/components/cp_add.gd
+res://scripts/components/cp_delete.gd
+res://scenes/levels/level_1.tscn
+res://scenes/actors/enemies/microwave.tscn
+res://scripts/dynamic_values/dv_input.gd
+res://scripts/dynamic_values/scenes/ds_random.gd
+res://scenes/elements/level_button.tscn
+res://scripts/dynamic_values/scenes/ds_cast.gd

@@ -1,17 +1,25 @@
-class_name CP_Delete extends Component
-## Deletes a given node via a signal.
+class_name DeleteComponent extends Component
+## Deletes a given node via a signal or condition.
 
 func _init():
 	component_id = "Delete"
 
 ## The node to delete.
 @export var target:DynamicNodeValue
+## The condition to meet before deletion
+@export var condition:DynamicCondition
 
 func _ready() -> void:
-	if target == null:
-		for child in get_children():
-			if child is DynamicNodeValue:
-				target = child
+	for child in get_children():
+		if child is DynamicNodeValue and target == null:
+			target = child
+		elif child is DynamicCondition and condition == null:
+			condition = child
+
+func _process(_delta: float) -> void:
+	if condition != null:
+		if condition.value():
+			delete()
 
 func delete():
 	var node := target.value()
