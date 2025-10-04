@@ -1,9 +1,11 @@
 class_name DynamicPropertyValue extends DynamicValue
+## Grabs the value from a property off a node.
 
 ## The node to get a property from. NOTE: will look in children for this automatically.
 @export var input:DynamicNodeValue
 var real_input:DynamicNodeValue
 
+## The property to get from the input.
 @export var property:String
 var sub_values:Array[String]
 

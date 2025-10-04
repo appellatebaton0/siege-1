@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://msschc5mwqdx"]
+[gd_scene load_steps=18 format=3 uid="uid://msschc5mwqdx"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_d24f7"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_xr266"]
@@ -8,6 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_qs0e1"]
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="7_8o8n4"]
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="8_fyws1"]
+[ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="9_076ha"]
+[ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="9_xr266"]
+[ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="11_8o8n4"]
+[ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="11_qs0e1"]
+[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="12_8o8n4"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="13_fyws1"]
 
 [sub_resource type="Gradient" id="Gradient_tipki"]
 
@@ -47,6 +53,7 @@ shape = SubResource("RectangleShape2D_choun")
 
 [node name="Knockback" type="Node" parent="CP_Motion"]
 script = ExtResource("5_fktpr")
+knockback_amount = 100.0
 
 [node name="CP_Area" parent="." instance=ExtResource("6_qs0e1")]
 collision_layer = 4
@@ -62,8 +69,37 @@ script = ExtResource("8_fyws1")
 collision_mask = 2
 metadata/_custom_type_script = "uid://chjx6uy3lae5m"
 
+[node name="Damage" type="Node" parent="CP_Area/Hitbox"]
+script = ExtResource("9_076ha")
+manual_damage = 5.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
 shape = SubResource("RectangleShape2D_choun")
 
+[node name="Health" type="Node" parent="."]
+script = ExtResource("9_xr266")
+
+[node name="FreeOnZero" type="Node" parent="Health"]
+script = ExtResource("11_8o8n4")
+metadata/_custom_type_script = "uid://d25af0viaxcrw"
+
+[node name="Label" type="Label" parent="."]
+offset_left = -15.0
+offset_top = -39.0
+offset_right = 25.0
+offset_bottom = -16.0
+script = ExtResource("11_qs0e1")
+
+[node name="DynamicPropertyValue" type="Node" parent="Label"]
+script = ExtResource("12_8o8n4")
+property = "health"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="Label/DynamicPropertyValue" node_paths=PackedStringArray("node")]
+script = ExtResource("13_fyws1")
+node = NodePath("../../../Health")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
 [connection signal="hurt" from="CP_Area/Hurtbox" to="CP_Motion/Knockback" method="knockback"]
 [connection signal="hurt" from="CP_Area/Hitbox" to="CP_Motion/Knockback" method="knockback"]
+[connection signal="health_reached_zero" from="Health" to="Health/FreeOnZero" method="free_actor"]

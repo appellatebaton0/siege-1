@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://800upw36t4ln"]
+[gd_scene load_steps=11 format=3 uid="uid://800upw36t4ln"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_621c6"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_bneef"]
@@ -6,15 +6,16 @@
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="4_646up"]
 [ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="4_o57oy"]
 [ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="5_bneef"]
+[ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="5_o57oy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bneef"]
-size = Vector2(2, 2)
+size = Vector2(4, 3)
 
 [sub_resource type="Gradient" id="Gradient_lfa4b"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_55ao4"]
 gradient = SubResource("Gradient_lfa4b")
-width = 3
+width = 4
 height = 3
 
 [node name="Penny" type="Node2D"]
@@ -35,6 +36,11 @@ shape = SubResource("RectangleShape2D_bneef")
 script = ExtResource("4_646up")
 collision_mask = 4
 metadata/_custom_type_script = "uid://chjx6uy3lae5m"
+
+[node name="SingleDamageComponent" type="Node" parent="CP_Area/HitboxAreaSubComponent"]
+script = ExtResource("5_o57oy")
+manual_damage = 5.0
+metadata/_custom_type_script = "uid://ctcsf3eyei58r"
 
 [node name="CP_Sprite" parent="." instance=ExtResource("4_o57oy")]
 texture = SubResource("GradientTexture2D_55ao4")

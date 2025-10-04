@@ -26,3 +26,6 @@ And, as always, more building to the framework!
 - CP_ModifyArgument -> Modifies an actor's spawn arguments
 - DV_SpawnArgument -> Pulls an actor's spawn arguments.
 - DS_Cast -> Returns a child DV if it's a scene.
+- CP_Health -> Hosts a float locked above zero, for being damaged and knowing when to die
+- CP_Damage -> Childed to a hitbox, duplicates self to the target on a hit to do damage.
+- DCP_Single -> Does a manual/dynamic float of damage to the target once.

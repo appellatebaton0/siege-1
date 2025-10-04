@@ -18,3 +18,10 @@ res://scripts/dynamic_values/dv_input.gd
 res://scripts/dynamic_values/scenes/ds_random.gd
 res://scenes/elements/level_button.tscn
 res://scripts/dynamic_values/scenes/ds_cast.gd
+res://scripts/components/cp_health.gd
+res://scripts/components/area_components/acp_hitbox.gd
+res://scripts/components/cp_damage.gd
+res://scripts/components/damage/cp_damage.gd
+res://scripts/components/damage/dcp_single.gd
+res://scripts/dynamic_values/dv_property.gd
+res://scripts/components/cp_free.gd

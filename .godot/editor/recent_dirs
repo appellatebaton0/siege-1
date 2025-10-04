@@ -1,7 +1,9 @@
+res://scripts/components/damage
+res://scripts/components
+res://scripts/components/
 res://scenes/actors/guns
 res://scenes/levels
 res://scripts/components/elements
-res://scripts/components
 res://scenes/actors
 res://scenes/elements
 res://scenes

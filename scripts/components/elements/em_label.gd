@@ -11,9 +11,13 @@ func _init():
 var me:Label = get_me()
 
 ## Use {x} to substitue values, with x being the index in the values array.
-@export var text_format:String = "{0}"
+@export_multiline var text_format:String = "{0}"
 
 func _ready() -> void:
+	for child in get_children():
+		if child is DynamicValue:
+			values.append(child)
+	
 	_update_label()
 
 func _process(_delta: float) -> void:

@@ -5,7 +5,11 @@ func _init() -> void:
 	component_id = "HitboxAreaSub"
 
 signal hurt(target:Actor) ## Emitted when this actor hurts another
-signal clicked_on ## Emitted when this actor is clicked on
+
+func _ready() -> void:
+	for child in get_children():
+		if child is DamageComponent:
+			hurt.connect(child.attach_to)
 
 func hurt_to(target:Actor):
 	hurt.emit(target)
@@ -21,8 +25,3 @@ func is_valid_area(area:Area2D) -> bool:
 func on_area_entered(area: Area2D) -> void:
 	if is_valid_area(area):
 		hurt_to(area.actor)
-
-func on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton:
-		if event.pressed:
-			clicked_on.emit()
