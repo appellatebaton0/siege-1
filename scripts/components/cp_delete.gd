@@ -24,16 +24,17 @@ func _process(_delta: float) -> void:
 func delete():
 	var node := target.value()
 	
-	## If it's an actor, try to free it via a freecomponent,
-	## then make sure the signal's emitted anyways.
-	## This *could* cause problems?
-	if node is Actor:
-		for component in node.get_components():
-			if component is FreeComponent:
-				component.free_actor()
-				return
-		node.freeing.emit()
-	
-	## Toss the node if nothing else is handling the deletion.
-	## "Fine, I'll do it myself."
-	node.queue_free()
+	if node != null:
+		## If it's an actor, try to free it via a freecomponent,
+		## then make sure the signal's emitted anyways.
+		## This *could* cause problems?
+		if node is Actor:
+			for component in node.get_components():
+				if component is FreeComponent:
+					component.free_actor()
+					return
+			node.freeing.emit()
+		
+		## Toss the node if nothing else is handling the deletion.
+		## "Fine, I'll do it myself."
+		node.queue_free()

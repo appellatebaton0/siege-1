@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=12 format=3 uid="uid://chm3si0nicqxd"]
 
+[ext_resource type="Theme" uid="uid://dqn5a6fuyvv5w" path="res://assets/resources/theme.tres" id="1_tipki"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="6_85g3d"]
-[ext_resource type="PackedScene" uid="uid://duch31es6odsw" path="res://scenes/levels/level_1.tscn" id="6_choun"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="6_o6xl0"]
 [ext_resource type="Script" uid="uid://kcbr0rkf2ua7" path="res://scripts/components/elements/em_autocolumn.gd" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://rryycqh10slx" path="res://scenes/elements/level_button.tscn" id="6_tipki"]
@@ -20,7 +20,31 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [Vector2(1152, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StartScreen:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InputBlock:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_tefeu"]
@@ -29,7 +53,7 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("LevelSelect:position")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
@@ -37,11 +61,75 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -649)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StartScreen:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1152, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InputBlock:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_85g3d"]
+resource_name = "to_levels"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StartScreen:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1152, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelSelect:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1152, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("InputBlock:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tipki"]
 _data = {
 &"RESET": SubResource("Animation_ya4ey"),
-&"picked_level": SubResource("Animation_tefeu")
+&"picked_level": SubResource("Animation_tefeu"),
+&"to_levels": SubResource("Animation_85g3d")
 }
 
 [node name="Main" type="Node" groups=["Main"]]
@@ -55,9 +143,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tipki")
 
 [node name="StartScreen" type="Panel" parent="CanvasLayer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,27 +169,50 @@ theme_override_constants/margin_bottom = 100
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/StartScreen/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 20
+theme_override_constants/separation = 90
 alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 106
+text = "SPARE CHANGE"
+horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 0
 
 [node name="Animator" type="Node" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button"]
 script = ExtResource("6_o6xl0")
-animation_name = "test"
+animation_name = "to_levels"
 
 [node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button/Animator" node_paths=PackedStringArray("node")]
 script = ExtResource("6_85g3d")
 node = NodePath("../../../../../../AnimationPlayer")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
+[node name="Label" type="Label" parent="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 106
+text = "Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="LevelSelect" type="Panel" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1152.0
+offset_right = 1152.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -117,25 +228,53 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/LevelSelect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LevelSelect/MarginContainer"]
 layout_mode = 2
 
-[node name="AutoColumn" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/GridContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 66
+text = "LEVELS"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="AutoColumn" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer/GridContainer"]
 script = ExtResource("6_tefeu")
 
-[node name="DirLoad" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/GridContainer"]
+[node name="DirLoad" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer/GridContainer" node_paths=PackedStringArray("pass_file_modifiers", "pass_index_modifiers")]
 script = ExtResource("7_o6xl0")
+pass_file_modifiers = [NodePath("PassScene")]
+pass_index_modifiers = [NodePath("PassIndex")]
 loading_scene = ExtResource("6_tipki")
 directory_path = "res://scenes/levels"
 
-[node name="ModifyScene" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/GridContainer/DirLoad"]
+[node name="PassScene" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer/GridContainer/DirLoad"]
 script = ExtResource("6_ya4ey")
+
+[node name="PassIndex" type="Node" parent="CanvasLayer/Control/LevelSelect/MarginContainer/VBoxContainer/GridContainer/DirLoad"]
+script = ExtResource("6_ya4ey")
+index = 1
+
+[node name="InputBlock" type="Control" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control" groups=["Animator"]]
 libraries = {
 &"": SubResource("AnimationLibrary_tipki")
 }
-
-[node name="Level1" parent="." instance=ExtResource("6_choun")]
 
 [connection signal="pressed" from="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button" to="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button/Animator" method="animate"]

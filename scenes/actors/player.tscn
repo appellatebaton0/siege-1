@@ -10,11 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://b8ih17o0gi778" path="res://assets/textures/player.png" id="8_nmlhc"]
 [ext_resource type="PackedScene" uid="uid://pq5hohriaemg" path="res://scenes/actors/guns/penny_gun.tscn" id="8_ypltb"]
 [ext_resource type="Script" uid="uid://bibj6mktsnd8n" path="res://scripts/dynamic_values/condition/dc_not.gd" id="10_dferu"]
-[ext_resource type="Script" uid="uid://bsd2u0vt62p7p" path="res://scripts/dynamic_values/float/df_vector.gd" id="10_h5w3c"]
+[ext_resource type="Script" path="res://scripts/dynamic_values/float/df_vector.gd" id="10_h5w3c"]
 [ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="11_6xqls"]
-[ext_resource type="Script" uid="uid://dc01byv28y07a" path="res://scripts/dynamic_values/vec2/dv2_cast.gd" id="11_0878f"]
+[ext_resource type="Script" path="res://scripts/dynamic_values/vec2/dv2_cast.gd" id="11_0878f"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="12_3hvrq"]
-[ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="12_0878f"]
+[ext_resource type="Script" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="12_0878f"]
 [ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="14_0878f"]
 [ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="15_dferu"]
 
@@ -170,7 +170,6 @@ metadata/_custom_type_script = "uid://bibj6mktsnd8n"
 [node name="Idle" type="Node" parent="CP_AnimatedSprite/Moving" node_paths=PackedStringArray("input")]
 script = ExtResource("12_0878f")
 input = NodePath("../../X")
-metadata/_custom_type_script = "uid://dvxjlj3aequd3"
 
 [node name="Midair" type="Node" parent="CP_AnimatedSprite" node_paths=PackedStringArray("input")]
 script = ExtResource("10_dferu")
@@ -180,22 +179,18 @@ metadata/_custom_type_script = "uid://bibj6mktsnd8n"
 [node name="YIsZero" type="Node" parent="CP_AnimatedSprite/Midair" node_paths=PackedStringArray("input")]
 script = ExtResource("12_0878f")
 input = NodePath("../../Y")
-metadata/_custom_type_script = "uid://dvxjlj3aequd3"
 
 [node name="X" type="Node" parent="CP_AnimatedSprite" node_paths=PackedStringArray("input")]
 script = ExtResource("10_h5w3c")
 input = NodePath("../Velocity")
-metadata/_custom_type_script = "uid://bsd2u0vt62p7p"
 
 [node name="Y" type="Node" parent="CP_AnimatedSprite" node_paths=PackedStringArray("input")]
 script = ExtResource("10_h5w3c")
 input = NodePath("../Velocity")
 type = 1
-metadata/_custom_type_script = "uid://bsd2u0vt62p7p"
 
 [node name="Velocity" type="Node" parent="CP_AnimatedSprite"]
 script = ExtResource("11_0878f")
-metadata/_custom_type_script = "uid://dc01byv28y07a"
 
 [node name="GetVelocity" type="Node" parent="CP_AnimatedSprite/Velocity" node_paths=PackedStringArray("input")]
 script = ExtResource("11_6xqls")

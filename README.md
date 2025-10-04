@@ -32,3 +32,6 @@ And, as always, more building to the framework!
 - DC_Inequality -> Returns whether a float makes an inequality true
 - DV2_Cast -> Casts a value to a Vector2
 - DF_Vector -> Returns the X or Y value of a Vector2
+- DF_Modify -> Modifies a float via an operator
+- DV_Int -> A DV that is always an integer
+	- DI_Cast -> Casts a value to an integer

@@ -1,12 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://rryycqh10slx"]
+[gd_scene load_steps=13 format=3 uid="uid://rryycqh10slx"]
 
 [ext_resource type="Script" uid="uid://clxnv4jp2t4w1" path="res://scripts/interface.gd" id="1_3kiwu"]
+[ext_resource type="Theme" uid="uid://dqn5a6fuyvv5w" path="res://assets/resources/theme.tres" id="1_hgc3l"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="1_smrge"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="2_de5ym"]
 [ext_resource type="Script" uid="uid://bf81f7ddjf4ou" path="res://scripts/components/cp_delete.gd" id="3_de5ym"]
 [ext_resource type="Script" uid="uid://wxua6trhimab" path="res://scripts/components/cp_add.gd" id="4_p0ssh"]
 [ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="6_3kiwu"]
 [ext_resource type="Script" uid="uid://cbhbn73a4gk8w" path="res://scripts/dynamic_values/scenes/ds_cast.gd" id="6_kpsvs"]
+[ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="9_add8y"]
+[ext_resource type="Script" uid="uid://b2mer0tok1pwp" path="res://scripts/dynamic_values/float/df_modify.gd" id="10_5hm10"]
+[ext_resource type="Script" uid="uid://bc760wnktbcy7" path="res://scripts/dynamic_values/int/di_cast.gd" id="10_boi7q"]
+[ext_resource type="Script" uid="uid://dydglnka2ndct" path="res://scripts/dynamic_values/float/df_cast.gd" id="11_kqidx"]
 
 [node name="Panel" type="Panel"]
 anchors_preset = 15
@@ -16,6 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_hgc3l")
 script = ExtResource("1_3kiwu")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -32,6 +38,7 @@ theme_override_constants/margin_bottom = 15
 
 [node name="Button" type="Button" parent="MarginContainer"]
 layout_mode = 2
+focus_mode = 0
 
 [node name="Animate" type="Node" parent="MarginContainer/Button"]
 script = ExtResource("1_smrge")
@@ -66,6 +73,35 @@ metadata/_custom_type_script = "uid://cbhbn73a4gk8w"
 [node name="DynamicSpawnArgumentValue" type="Node" parent="MarginContainer/Button/AddNode/DynamicCastScenesValue" node_paths=PackedStringArray("from")]
 script = ExtResource("6_3kiwu")
 from = NodePath("../../../../..")
+metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 56
+text = "Level 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+script = ExtResource("9_add8y")
+text_format = "Level {0}"
+
+[node name="Int" type="Node" parent="MarginContainer/Label"]
+script = ExtResource("10_boi7q")
+metadata/_custom_type_script = "uid://bc760wnktbcy7"
+
+[node name="+1" type="Node" parent="MarginContainer/Label/Int"]
+script = ExtResource("10_5hm10")
+amount = 1.0
+
+[node name="Float" type="Node" parent="MarginContainer/Label/Int/+1"]
+script = ExtResource("11_kqidx")
+metadata/_custom_type_script = "uid://dydglnka2ndct"
+
+[node name="File Index" type="Node" parent="MarginContainer/Label/Int/+1/Float" node_paths=PackedStringArray("from")]
+script = ExtResource("6_3kiwu")
+from = NodePath("../../../../../..")
+index = 1
 metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
 
 [connection signal="pressed" from="MarginContainer/Button" to="MarginContainer/Button/Animate" method="animate"]

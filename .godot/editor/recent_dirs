@@ -1,5 +1,5 @@
-res://scripts/dynamic_values/condition
-res://assets/textures
+res://scripts/dynamic_values/float
+res://assets/resources
 res://scripts/components/damage
 res://scripts/components
 res://scripts/components/
@@ -11,5 +11,4 @@ res://scenes/elements
 res://scenes
 res://
 res://scripts/components/motion_subcomponents
-res://assets/resources
 res://assets/resources/

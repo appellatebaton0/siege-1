@@ -5,6 +5,11 @@ class_name DirectoryLoadComponent extends Component
 func _init():
 	component_id = "DirectoryLoad"
 
+## Spawn argument modifiers that should get the file passed to them
+@export var pass_file_modifiers:Array[ModArgumentComponent]
+## Spawn arg modifiers that should get the index of the file passed to them.
+@export var pass_index_modifiers:Array[ModArgumentComponent]
+
 ## Whether to just load the scenes *from* the directory
 @export var load_from_directory:bool = false
 ## Whether to add the children in reverse.
@@ -26,48 +31,36 @@ func _ready() -> void:
 			modifiers.append(child)
 	
 	
-	if load_from_directory: ## Load the contents
-		## Access the directory and iterate through its files
-		var dir:DirAccess = DirAccess.open(directory_path)
-		if dir:
-			dir.list_dir_begin()
-			var file_name = dir.get_next()
-			while file_name != "": # While there are files left
-				# As long as it isn't a directory
-				if !dir.current_is_dir(): 
+	## Access the directory and iterate through its files
+	var dir:DirAccess = DirAccess.open(directory_path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		var file_index := 0
+		while file_name != "": # While there are files left
+			# As long as it isn't a directory
+			if !dir.current_is_dir(): 
+				
+				var new
+				if load_from_directory: ## Load the file itself
+					new = load(directory_path + "/" + file_name)
+				else: ## Load a file for each file
+					new = loading_scene.instantiate()
 					
-					## Load the file onto the parent
-					var new = load(directory_path + "/" + file_name)
-					
-					for mod in modifiers:
-						mod.modify(new, 0, load(file_name))
-					
-					to_be_parented.append(new)
-					
-				file_name = dir.get_next() # Move on
-		else: # IF something messed up.
-			print("An error occurred when trying to access the path.")
-	else: ## Load the given scene.
-		var dir:DirAccess = DirAccess.open(directory_path)
-		if dir:
-			dir.list_dir_begin()
-			var file_name = dir.get_next()
-			while file_name != "": # While there are files left
-				# As long as it isn't a directory
-				if !dir.current_is_dir(): 
-					
-					
-					## Load the file onto the parent
-					var new = loading_scene.instantiate()
-					
-					for mod in modifiers:
-						mod.modify(new, 0, load(directory_path + "/" + file_name))
-					
-					to_be_parented.append(new)
-			
-				file_name = dir.get_next() # Move on
-		else: # IF something messed up.
-			print("An error occurred when trying to access the path.")
+				for mod in modifiers:
+					if pass_file_modifiers.has(mod):
+						mod.modify(new, -1, load(directory_path + "/" + file_name))
+					elif pass_index_modifiers.has(mod):
+						mod.modify(new, -1, file_index)
+					else:
+						mod.modify(new)
+				
+				to_be_parented.append(new)
+				
+			file_index += 1
+			file_name = dir.get_next() # Move on
+	else: # IF something messed up.
+		print("An error occurred when trying to access the path.")
 
 func _process(_delta: float) -> void:
 	while len(to_be_parented) > 0:

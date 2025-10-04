@@ -22,7 +22,7 @@ group_name = "Mouse"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
 [node name="BulletSpawner" parent="." node_paths=PackedStringArray("options_value", "rotation_value", "velocity_value", "main", "condition") instance=ExtResource("3_v2qth")]
-position = Vector2(31, 0)
+position = Vector2(23, 0)
 options_value = NodePath("Options")
 rotation_value = NodePath("Rotation")
 velocity_value = NodePath("Velocity")
@@ -72,5 +72,5 @@ metadata/_custom_type_script = "uid://dx62hdsswpsqh"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(23, 1)
+position = Vector2(15, 1)
 texture = ExtResource("12_n416s")
