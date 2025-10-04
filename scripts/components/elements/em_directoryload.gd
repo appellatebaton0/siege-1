@@ -56,6 +56,7 @@ func _ready() -> void:
 				# As long as it isn't a directory
 				if !dir.current_is_dir(): 
 					
+					
 					## Load the file onto the parent
 					var new = loading_scene.instantiate()
 					
@@ -76,3 +77,4 @@ func _process(_delta: float) -> void:
 			parent.add_child(node)
 		else:
 			to_be_parented.erase(node)
+		

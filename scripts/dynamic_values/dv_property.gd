@@ -53,7 +53,7 @@ func value() -> Variant:
 	for sub_value in sub_values:
 		if response == null:
 			response = get_property_of(real_input.value(), sub_value)
-		elif response is Node:
+		else:
 			response = get_property_of(response, sub_value)
 	
 	return response

@@ -7,27 +7,26 @@ func _init() -> void:
 
 ## If set, plays a global animation that synces across nodes with it.
 @export var global_animation:GlobalAnimation
-## If set, the actor's motion substate will affect the animation to play.
-## Key: Substate, Value: AnimationName
-@export var motion_ties:Dictionary[String, String]
-var motion_component:MotionComponent
+## Allows for tying conditions to which animation is played.
+@export var condition_ties:Dictionary[DynamicCondition, String]
+@export var flip_h_condition:DynamicCondition ## Flips horizontally if true
+@export var flip_v_condition:DynamicCondition ## Flips vertically if true
 
 func _ready():
-	if motion_ties != null:
-		for component in actor.get_components():
-			if component is MotionComponent:
-				motion_component = component
-	
 	if global_animation != null:
 		Global.add_global_animation(global_animation)
 
 func _process(_delta: float) -> void:
 	if global_animation != null:
 		me.frame = global_animation.current_frame
-	if motion_ties != null and motion_component != null:
-		if motion_component.me.velocity.x != 0:
-			me.flip_h = motion_component.me.velocity.x < 0
-		for tie in motion_ties:
-			if motion_component.substate == tie:
-				if me.sprite_frames.has_animation(motion_ties[tie]):
-					me.play(motion_ties[tie])
+	
+	if flip_h_condition != null:
+		me.flip_h = flip_h_condition.value()
+	if flip_v_condition != null:
+		me.flip_v = flip_v_condition.value()
+
+	if condition_ties != null:
+		for tie in condition_ties:
+			if tie.value() and me.sprite_frames.has_animation(condition_ties[tie]):
+				me.play(condition_ties[tie])
+				

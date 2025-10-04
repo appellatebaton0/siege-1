@@ -12,7 +12,7 @@ func get_grid_container() -> GridContainer:
 
 func update() -> void:
 	if grid_container != null:
-		grid_container.columns = round(sqrt(grid_container.get_child_count()))
+		grid_container.columns = floor(sqrt(grid_container.get_child_count()))
 
 var last_child_count:int = 0
 func _process(_delta: float) -> void:

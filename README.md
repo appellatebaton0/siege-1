@@ -29,3 +29,6 @@ And, as always, more building to the framework!
 - CP_Health -> Hosts a float locked above zero, for being damaged and knowing when to die
 - CP_Damage -> Childed to a hitbox, duplicates self to the target on a hit to do damage.
 - DCP_Single -> Does a manual/dynamic float of damage to the target once.
+- DC_Inequality -> Returns whether a float makes an inequality true
+- DV2_Cast -> Casts a value to a Vector2
+- DF_Vector -> Returns the X or Y value of a Vector2

@@ -35,9 +35,6 @@ func get_motion_sub_components() -> Array[MotionSubComponent]:
 # The current state
 var current_state:MotionState
 
-# The lower level state the motion is in, to be set by a MotionState.
-var substate:String
-
 # Change the current state
 func change_state(to:MotionState):
 	current_state.on_inactive()

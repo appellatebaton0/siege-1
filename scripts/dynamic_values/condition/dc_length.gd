@@ -1,17 +1,10 @@
-extends DynamicCondition
+extends DynamicFloatValue ## Should be int but... eh. nrn.
 class_name DynamicLengthCondition
 
-## Returns if the length of an array / string matches criteria
+## Returns the length of an array
 
 ## The input, an array / string
 @export var input:DynamicValue
-
-enum comparisons{GREATER_THAN, LESS_THAN, GREATER_OR_EQUAL, LESS_OR_EQUAL, EQUAL}
-## The comparison to make between the input and comparator
-@export var comparison := comparisons.EQUAL
-
-## The value to compare the length to.
-@export var comparator := 0
 
 func _ready() -> void:
 	if input == null:
@@ -20,20 +13,8 @@ func _ready() -> void:
 				input = child
 				break
 
-func value() -> bool:
+func value() -> float:
 	if input == null:
-		return false
+		return 0.0
 	
-	var length = len(input.value())
-	match comparison:
-		comparisons.GREATER_THAN:
-			return length > comparator
-		comparisons.LESS_THAN:
-			return length < comparator
-		comparisons.GREATER_OR_EQUAL:
-			return length >= comparator
-		comparisons.LESS_OR_EQUAL:
-			return length <= comparator
-		comparisons.EQUAL:
-			return length == comparator
-	return false
+	return len(input.value())
