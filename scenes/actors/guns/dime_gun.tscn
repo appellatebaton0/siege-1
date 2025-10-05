@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://pq5hohriaemg"]
+[gd_scene load_steps=14 format=3 uid="uid://pq5hohriaemg"]
 
 [ext_resource type="Script" uid="uid://comgodelutnps" path="res://scripts/components/cp_look.gd" id="1_frchf"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="2_exum4"]
@@ -9,9 +9,10 @@
 [ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="7_qlfii"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="8_c2kn7"]
 [ext_resource type="Script" uid="uid://ufmdanene3ff" path="res://scripts/dynamic_values/vec2/dv2_manual.gd" id="9_lpld7"]
-[ext_resource type="Script" uid="uid://c3lp8v776obwx" path="res://scripts/dynamic_values/condition/dc_cast.gd" id="10_hha76"]
+[ext_resource type="PackedScene" uid="uid://bb8s8lqifyc1w" path="res://scenes/actors/damages/dime_damage.tscn" id="11_frchf"]
 [ext_resource type="Script" uid="uid://dx62hdsswpsqh" path="res://scripts/dynamic_values/dv_input.gd" id="11_gdi3k"]
 [ext_resource type="Texture2D" uid="uid://vbsakpn4gu85" path="res://assets/textures/moneygun.png" id="12_ebplh"]
+[ext_resource type="Script" uid="uid://dnog3jll3kr3h" path="res://scripts/components/cp_particle.gd" id="13_exum4"]
 
 [node name="DimeGun" type="Node2D"]
 script = ExtResource("1_frchf")
@@ -62,15 +63,33 @@ input = Vector2(250, 0)
 metadata/_custom_type_script = "uid://ufmdanene3ff"
 
 [node name="FireInput" type="Node" parent="BulletSpawner"]
-script = ExtResource("10_hha76")
-metadata/_custom_type_script = "uid://c3lp8v776obwx"
-
-[node name="DynamicInputValue" type="Node" parent="BulletSpawner/FireInput"]
 script = ExtResource("11_gdi3k")
 input_name = "Fire"
 metadata/_custom_type_script = "uid://dx62hdsswpsqh"
+
+[node name="DamageSpawner" parent="." node_paths=PackedStringArray("options_value", "main", "condition") instance=ExtResource("3_mgpht")]
+options_value = NodePath("DynamicRandomSceneValue")
+main = NodePath("DynamicSingleGroupValue")
+condition = NodePath("../BulletSpawner/FireInput")
+cooldown_ignores_condition = true
+spawn_limit = -1
+auto_spawn = true
+
+[node name="DynamicRandomSceneValue" type="Node" parent="DamageSpawner"]
+script = ExtResource("4_wmpft")
+options = Array[PackedScene]([ExtResource("11_frchf")])
+metadata/_custom_type_script = "uid://dfmg4s4valta2"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="DamageSpawner"]
+script = ExtResource("2_exum4")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(15, 1)
 texture = ExtResource("12_ebplh")
+
+[node name="ParticleComponent" type="Node2D" parent="."]
+position = Vector2(23, 0)
+script = ExtResource("13_exum4")

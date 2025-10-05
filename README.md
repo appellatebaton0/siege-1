@@ -35,3 +35,4 @@ And, as always, more building to the framework!
 - DF_Modify -> Modifies a float via an operator
 - DV_Int -> A DV that is always an integer
 	- DI_Cast -> Casts a value to an integer
+- MS_Follow -> Follows another node via lerp/linear. Good for camera.

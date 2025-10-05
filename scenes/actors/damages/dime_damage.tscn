@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb8s8lqifyc1w"]
+
+[ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="1_10swp"]
+
+[node name="DimeDamage" type="Node"]
+script = ExtResource("1_10swp")
+manual_damage = 0.1
+metadata/_custom_type_script = "uid://ctcsf3eyei58r"

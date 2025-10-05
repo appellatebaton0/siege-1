@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://duch31es6odsw"]
+[gd_scene load_steps=22 format=4 uid="uid://duch31es6odsw"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_qxy0u"]
 [ext_resource type="PackedScene" uid="uid://du1n8cl1rn58r" path="res://scenes/actors/player.tscn" id="1_x42e6"]
@@ -7,25 +7,47 @@
 [ext_resource type="PackedScene" uid="uid://msschc5mwqdx" path="res://scenes/actors/enemies/microwave.tscn" id="4_oc4kc"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="5_6761a"]
 [ext_resource type="Script" uid="uid://bibj6mktsnd8n" path="res://scripts/dynamic_values/condition/dc_not.gd" id="7_excbq"]
-[ext_resource type="Script" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="7_qxy0u"]
+[ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="7_qxy0u"]
 [ext_resource type="Script" uid="uid://bf81f7ddjf4ou" path="res://scripts/components/cp_delete.gd" id="8_dnkej"]
 [ext_resource type="Script" uid="uid://5y4fq21khgxc" path="res://scripts/dynamic_values/condition/dc_length.gd" id="8_excbq"]
 [ext_resource type="Script" uid="uid://c0rn4mlevdrf2" path="res://scripts/dynamic_values/nodes/dN_group.gd" id="9_iav0o"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="9_mm8aj"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="11_excbq"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="12_wtwp4"]
+[ext_resource type="Script" uid="uid://dkp1runwb4gyr" path="res://scripts/components/motion_subcomponents/motion_states/ms_follow.gd" id="13_iwr0g"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wtwp4"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tefeu"]
 texture = ExtResource("2_6761a")
 0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_wtwp4")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:1/0 = 0
+0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_wtwp4")
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:2/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_o6xl0"]
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 15
 sources/0 = SubResource("TileSetAtlasSource_tefeu")
+
+[sub_resource type="Environment" id="Environment_31oqk"]
+background_mode = 3
+glow_enabled = true
+glow_blend_mode = 0
+
+[sub_resource type="Gradient" id="Gradient_wtwp4"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iwr0g"]
+gradient = SubResource("Gradient_wtwp4")
+fill = 1
+fill_from = Vector2(0.5186916, 0.48598132)
+fill_to = Vector2(0.43457943, 0)
 
 [node name="Level1" type="Node2D" groups=["Level"]]
 rotation = 0.00023596727
@@ -36,70 +58,70 @@ script = ExtResource("11_excbq")
 group_name = "Animator"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
-[node name="Win" type="Node" parent="." node_paths=PackedStringArray("animator")]
+[node name="WinCondition" type="Node" parent="." node_paths=PackedStringArray("animator")]
 script = ExtResource("5_6761a")
 animator = NodePath("../GetAnimator")
 animation_name = "won_level"
 metadata/_custom_type_script = "uid://b3tnj82s4tfu"
 
-[node name="EnemiesDead" type="Node" parent="Win"]
+[node name="EnemiesDead" type="Node" parent="WinCondition"]
 script = ExtResource("7_excbq")
 metadata/_custom_type_script = "uid://bibj6mktsnd8n"
 
-[node name="EnemiesAlive" type="Node" parent="Win/EnemiesDead"]
+[node name="EnemiesAlive" type="Node" parent="WinCondition/EnemiesDead"]
 script = ExtResource("7_qxy0u")
 comparison = 0
 
-[node name="Length" type="Node" parent="Win/EnemiesDead/EnemiesAlive"]
+[node name="Length" type="Node" parent="WinCondition/EnemiesDead/EnemiesAlive"]
 script = ExtResource("8_excbq")
 metadata/_custom_type_script = "uid://5y4fq21khgxc"
 
-[node name="Enemies" type="Node" parent="Win/EnemiesDead/EnemiesAlive/Length"]
+[node name="Enemies" type="Node" parent="WinCondition/EnemiesDead/EnemiesAlive/Length"]
 script = ExtResource("9_iav0o")
 group_name = "Enemy"
 metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 
-[node name="DeleteComponent" type="Node" parent="Win" node_paths=PackedStringArray("condition")]
+[node name="DeleteComponent" type="Node" parent="WinCondition" node_paths=PackedStringArray("condition")]
 script = ExtResource("8_dnkej")
 condition = NodePath("../EnemiesDead")
 metadata/_custom_type_script = "uid://bf81f7ddjf4ou"
 
-[node name="DynamicSingleNodeValue" type="Node" parent="Win/DeleteComponent" node_paths=PackedStringArray("node")]
+[node name="DynamicSingleNodeValue" type="Node" parent="WinCondition/DeleteComponent" node_paths=PackedStringArray("node")]
 script = ExtResource("9_mm8aj")
-node = NodePath("../../../Lose")
+node = NodePath("../../../LoseCondition")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="Lose" type="Node" parent="." node_paths=PackedStringArray("animator")]
+[node name="LoseCondition" type="Node" parent="." node_paths=PackedStringArray("animator")]
 script = ExtResource("5_6761a")
 animator = NodePath("../GetAnimator")
 animation_name = "level_failed"
 metadata/_custom_type_script = "uid://b3tnj82s4tfu"
 
-[node name="PlayerDead" type="Node" parent="Lose"]
+[node name="PlayerDead" type="Node" parent="LoseCondition"]
 script = ExtResource("7_excbq")
 metadata/_custom_type_script = "uid://bibj6mktsnd8n"
 
-[node name="PlayerAlive" type="Node" parent="Lose/PlayerDead"]
+[node name="PlayerAlive" type="Node" parent="LoseCondition/PlayerDead"]
 script = ExtResource("7_qxy0u")
 comparison = 0
 
-[node name="Length" type="Node" parent="Lose/PlayerDead/PlayerAlive"]
+[node name="Length" type="Node" parent="LoseCondition/PlayerDead/PlayerAlive"]
 script = ExtResource("8_excbq")
 metadata/_custom_type_script = "uid://5y4fq21khgxc"
 
-[node name="Enemies" type="Node" parent="Lose/PlayerDead/PlayerAlive/Length"]
+[node name="Enemies" type="Node" parent="LoseCondition/PlayerDead/PlayerAlive/Length"]
 script = ExtResource("9_iav0o")
 group_name = "Player"
 metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 
-[node name="DeleteComponent" type="Node" parent="Lose" node_paths=PackedStringArray("condition")]
+[node name="DeleteComponent" type="Node" parent="LoseCondition" node_paths=PackedStringArray("condition")]
 script = ExtResource("8_dnkej")
 condition = NodePath("../PlayerDead")
 metadata/_custom_type_script = "uid://bf81f7ddjf4ou"
 
-[node name="DynamicSingleNodeValue" type="Node" parent="Lose/DeleteComponent" node_paths=PackedStringArray("node")]
+[node name="DynamicSingleNodeValue" type="Node" parent="LoseCondition/DeleteComponent" node_paths=PackedStringArray("node")]
 script = ExtResource("9_mm8aj")
-node = NodePath("../../../Win")
+node = NodePath("../../../WinCondition")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
 [node name="Environment" type="TileMapLayer" parent="."]
@@ -109,11 +131,38 @@ tile_map_data = PackedByteArray("AAD3/wEAAAAAAAAAAAD3/wIAAAAAAAEAAAD3/wMAAAAAAAE
 tile_set = SubResource("TileSet_o6xl0")
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_x42e6")]
+position = Vector2(11.000472, 1.9974043)
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+script = ExtResource("1_qxy0u")
+
+[node name="CP_Motion" parent="Camera" instance=ExtResource("12_wtwp4")]
+
+[node name="Node" type="Node" parent="Camera/CP_Motion"]
+script = ExtResource("13_iwr0g")
+lerp_x = 0.2
+lerp_y = 0.2
+
+[node name="DynamicSingleGroupValue" type="Node" parent="Camera/CP_Motion/Node"]
+script = ExtResource("11_excbq")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
 [node name="Mouse" parent="." instance=ExtResource("3_sk5k4")]
 
 [node name="E_Microwave" parent="." instance=ExtResource("4_oc4kc")]
 position = Vector2(76, -0.017933512)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+rotation = 0.46267197
+energy = 0.35
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_31oqk")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-27.0059, -24.99363)
+energy = 1.4
+texture = SubResource("GradientTexture2D_iwr0g")

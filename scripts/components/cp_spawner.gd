@@ -33,30 +33,32 @@ var sent_signal := false ## Whether the signal's been sent this go around.
 @export var spawn_time := 0.0 ## The time before the first spawn
 
 
-func get_actor_motion_component(from:Actor) -> MotionComponent:
-	for component in from.get_components():
-		if component is MotionComponent:
-			return component
+func get_actor_motion_component(from:Node) -> MotionComponent:
+	if from is Actor:
+		for component in from.get_components():
+			if component is MotionComponent:
+				return component
 	return null
 
 func spawn():
 	for option in options_value.value():
-		var new:Actor = option.instantiate()
+		var new = option.instantiate()
 		
-		## Get transform
-		var global_position:Vector2 = position_value.value() if position_value != null else me.global_position
-		var rotation:float = rotation_value.value() if rotation_value != null else 0.0
-		var velocity:Vector2 = velocity_value.value() if velocity_value != null else Vector2.ZERO
-
 		main.value().add_child(new)
 		
-		# Apply position & rotation
-		new.global_position = global_position
-		new.rotation = rotation
-		
-		# Apply initial velocity (or attempt to)
-		if get_actor_motion_component(new) != null:
-			get_actor_motion_component(new).me.velocity = velocity.rotated(rotation)
+		if new is Node2D:
+			## Get transform
+			var global_position:Vector2 = position_value.value() if position_value != null else me.global_position
+			var rotation:float = rotation_value.value() if rotation_value != null else 0.0
+			var velocity:Vector2 = velocity_value.value() if velocity_value != null else Vector2.ZERO
+	
+			# Apply position & rotation
+			new.global_position = global_position
+			new.rotation = rotation
+			
+			# Apply initial velocity (or attempt to)
+			if get_actor_motion_component(new) != null:
+				get_actor_motion_component(new).me.velocity = velocity.rotated(rotation)
 
 func _process(delta: float) -> void:
 	if auto_spawn and actor.is_active():

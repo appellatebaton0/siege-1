@@ -4,6 +4,11 @@
 @onready var victim:Actor = null
 @onready var health:HealthComponent
 
+func _ready() -> void:
+	## If not made inert, do the damage where you are.
+	if get_parent() is not HitboxAreaSubComponent:
+		victim = actor
+
 func attach_to(target:Actor):
 	## Attach a copy of this node to the hit actor
 	var new = self.duplicate()
