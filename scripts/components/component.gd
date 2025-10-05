@@ -15,7 +15,7 @@ func _init():
 @onready var actor:Actor = find_actor()
 func find_actor(depth:int = 5, with:Node = self) -> Actor:
 	
-	if depth <= 0:
+	if depth <= 0 or with == null:
 		return null
 	
 	var answer:Actor = null

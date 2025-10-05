@@ -1,11 +1,11 @@
+res://scenes/levels
+res://scripts/components/elements
 res://scripts/dynamic_values/float
 res://assets/resources
 res://scripts/components/damage
 res://scripts/components
 res://scripts/components/
 res://scenes/actors/guns
-res://scenes/levels
-res://scripts/components/elements
 res://scenes/actors
 res://scenes/elements
 res://scenes

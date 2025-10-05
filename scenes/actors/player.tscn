@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://du1n8cl1rn58r"]
+[gd_scene load_steps=33 format=3 uid="uid://du1n8cl1rn58r"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_h5w3c"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_0878f"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="5_t62v4"]
 [ext_resource type="PackedScene" uid="uid://208ojfrjlttc" path="res://scenes/components/cp_animatedsprite.tscn" id="7_ypltb"]
 [ext_resource type="Texture2D" uid="uid://b8ih17o0gi778" path="res://assets/textures/player.png" id="8_nmlhc"]
-[ext_resource type="PackedScene" uid="uid://pq5hohriaemg" path="res://scenes/actors/guns/penny_gun.tscn" id="8_ypltb"]
+[ext_resource type="PackedScene" uid="uid://pq5hohriaemg" path="res://scenes/actors/guns/dime_gun.tscn" id="8_ypltb"]
 [ext_resource type="Script" uid="uid://bibj6mktsnd8n" path="res://scripts/dynamic_values/condition/dc_not.gd" id="10_dferu"]
 [ext_resource type="Script" path="res://scripts/dynamic_values/float/df_vector.gd" id="10_h5w3c"]
 [ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="11_6xqls"]
@@ -17,6 +17,9 @@
 [ext_resource type="Script" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="12_0878f"]
 [ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="14_0878f"]
 [ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="15_dferu"]
+[ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="16_642so"]
+[ext_resource type="Theme" uid="uid://dqn5a6fuyvv5w" path="res://assets/resources/theme.tres" id="18_afsss"]
+[ext_resource type="Script" uid="uid://cjjqx5jo072kl" path="res://scripts/dynamic_values/node/dn_component.gd" id="20_642so"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(14, 21)
@@ -203,11 +206,14 @@ script = ExtResource("12_3hvrq")
 node = NodePath("../../../../CP_Motion")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="PennyGun" parent="." instance=ExtResource("8_ypltb")]
-
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("14_0878f")
+health = 5.05
 metadata/_custom_type_script = "uid://cvvlcumbxn8pb"
+
+[node name="FreeComponent" type="Node" parent="."]
+script = ExtResource("16_642so")
+metadata/_custom_type_script = "uid://d25af0viaxcrw"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 0
@@ -218,6 +224,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("18_afsss")
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -231,16 +238,20 @@ theme_override_font_sizes/font_size = 30
 text = "Budget"
 script = ExtResource("15_dferu")
 values = [NodePath("DynamicPropertyValue")]
-text_format = "Remaining Budget: {0}"
+text_format = "Remaining Budget: ${0}"
 
 [node name="DynamicPropertyValue" type="Node" parent="CanvasLayer/MarginContainer/Label"]
 script = ExtResource("11_6xqls")
 property = "health"
 metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
 
-[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/MarginContainer/Label/DynamicPropertyValue" node_paths=PackedStringArray("node")]
-script = ExtResource("12_3hvrq")
-node = NodePath("../../../../../HealthComponent")
-metadata/_custom_type_script = "uid://vflwvin64hae"
+[node name="DynamicComponentValue" type="Node" parent="CanvasLayer/MarginContainer/Label/DynamicPropertyValue" node_paths=PackedStringArray("actor")]
+script = ExtResource("20_642so")
+component_id = "Health"
+actor = NodePath("../../../../..")
+metadata/_custom_type_script = "uid://cjjqx5jo072kl"
+
+[node name="DimeGun" parent="." instance=ExtResource("8_ypltb")]
 
 [connection signal="hurt" from="CP_Area/HurtboxAreaSubComponent" to="CP_Motion/Knockback" method="knockback"]
+[connection signal="health_reached_zero" from="HealthComponent" to="FreeComponent" method="free_actor"]

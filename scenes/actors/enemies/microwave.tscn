@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://msschc5mwqdx"]
+[gd_scene load_steps=18 format=3 uid="uid://msschc5mwqdx"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_d24f7"]
 [ext_resource type="Texture2D" uid="uid://cxfqfvt71tm1y" path="res://assets/textures/microwave.png" id="2_fyws1"]
@@ -15,11 +15,12 @@
 [ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="11_qs0e1"]
 [ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="12_8o8n4"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="13_fyws1"]
+[ext_resource type="Theme" uid="uid://dqn5a6fuyvv5w" path="res://assets/resources/theme.tres" id="13_x0y1p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_choun"]
 size = Vector2(24, 16)
 
-[node name="Microwave" type="Node2D"]
+[node name="Microwave" type="Node2D" groups=["Enemy"]]
 script = ExtResource("1_d24f7")
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 
@@ -66,24 +67,31 @@ metadata/_custom_type_script = "uid://chjx6uy3lae5m"
 
 [node name="Damage" type="Node" parent="CP_Area/Hitbox"]
 script = ExtResource("9_076ha")
-manual_damage = 5.0
+manual_damage = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
 shape = SubResource("RectangleShape2D_choun")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("9_xr266")
+health = 0.49
 
 [node name="FreeOnZero" type="Node" parent="Health"]
 script = ExtResource("11_8o8n4")
 metadata/_custom_type_script = "uid://d25af0viaxcrw"
 
 [node name="Label" type="Label" parent="."]
-offset_left = -15.0
-offset_top = -39.0
-offset_right = 25.0
-offset_bottom = -16.0
+offset_left = -11.999999
+offset_top = -18.999998
+offset_right = 54.0
+offset_bottom = 12.000002
+scale = Vector2(0.36, 0.36)
+theme = ExtResource("13_x0y1p")
+theme_override_colors/font_color = Color(0.88, 0.20240001, 0.20240001, 1)
+theme_override_font_sizes/font_size = 26
+text = "$0.55"
 script = ExtResource("11_qs0e1")
+text_format = "${0}"
 
 [node name="DynamicPropertyValue" type="Node" parent="Label"]
 script = ExtResource("12_8o8n4")

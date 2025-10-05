@@ -39,6 +39,8 @@ func _ready() -> void:
 
 
 func get_property_of(node:Node, prop:String):
+	if node == null:
+		return null
 	var is_call = prop.contains("()")
 	
 	if is_call:
@@ -52,6 +54,7 @@ func value() -> Variant:
 	# Iterate down the values to get the final value.
 	for sub_value in sub_values:
 		if response == null:
+			
 			response = get_property_of(real_input.value(), sub_value)
 		else:
 			response = get_property_of(response, sub_value)

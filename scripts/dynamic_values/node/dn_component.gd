@@ -16,7 +16,9 @@ func value() -> Component:
 	var response:Component = null
 	
 	var curence:int = 0
+	#print("-")
 	for component in actor.get_components():
+		#print(component)
 		# Not the right type, continue
 		if component.component_id != component_id:
 			continue
@@ -26,5 +28,6 @@ func value() -> Component:
 		# if there's no newer instance
 		if curence <= occurence:
 			response = component
+	#print("-")
 	
 	return response
