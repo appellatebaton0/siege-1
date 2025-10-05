@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://msschc5mwqdx"]
+[gd_scene load_steps=17 format=3 uid="uid://msschc5mwqdx"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_d24f7"]
 [ext_resource type="Texture2D" uid="uid://cxfqfvt71tm1y" path="res://assets/textures/microwave.png" id="2_fyws1"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_xr266"]
 [ext_resource type="Script" uid="uid://cpxqin5siq37c" path="res://scripts/components/motion_subcomponents/motion_states/ms_bouncefollow.gd" id="3_076ha"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="4_k67qc"]
-[ext_resource type="Script" uid="uid://b08hg2i6n1vvx" path="res://scripts/components/motion_subcomponents/mcp_knockback.gd" id="5_fktpr"]
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_qs0e1"]
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="7_8o8n4"]
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="8_fyws1"]
@@ -30,10 +29,11 @@ texture = ExtResource("2_fyws1")
 
 [node name="CP_Motion" parent="." instance=ExtResource("2_xr266")]
 collision_layer = 4
+collision_mask = 5
 
 [node name="MS_BounceFollow" type="Node" parent="CP_Motion"]
 script = ExtResource("3_076ha")
-jump_velocity = 130.0
+jump_velocity = 170.0
 floor_acceleration = 200.0
 air_acceleration = 200.0
 max_speed = 120.0
@@ -46,10 +46,6 @@ metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
 shape = SubResource("RectangleShape2D_choun")
-
-[node name="Knockback" type="Node" parent="CP_Motion"]
-script = ExtResource("5_fktpr")
-knockback_amount = 100.0
 
 [node name="CP_Area" parent="." instance=ExtResource("6_qs0e1")]
 collision_layer = 4
@@ -67,7 +63,7 @@ metadata/_custom_type_script = "uid://chjx6uy3lae5m"
 
 [node name="Damage" type="Node" parent="CP_Area/Hitbox"]
 script = ExtResource("9_076ha")
-manual_damage = 0.5
+manual_damage = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
 shape = SubResource("RectangleShape2D_choun")
@@ -87,7 +83,7 @@ offset_right = 54.0
 offset_bottom = 12.000002
 scale = Vector2(0.36, 0.36)
 theme = ExtResource("13_x0y1p")
-theme_override_colors/font_color = Color(0.88, 0.20240001, 0.20240001, 1)
+theme_override_colors/font_color = Color(1, 0.29000002, 0.29000002, 1)
 theme_override_font_sizes/font_size = 26
 text = "$0.55"
 script = ExtResource("11_qs0e1")
@@ -103,6 +99,4 @@ script = ExtResource("13_fyws1")
 node = NodePath("../../../Health")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[connection signal="hurt" from="CP_Area/Hurtbox" to="CP_Motion/Knockback" method="knockback"]
-[connection signal="hurt" from="CP_Area/Hitbox" to="CP_Motion/Knockback" method="knockback"]
 [connection signal="health_reached_zero" from="Health" to="Health/FreeOnZero" method="free_actor"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://pq5hohriaemg"]
+[gd_scene load_steps=15 format=3 uid="uid://pq5hohriaemg"]
 
 [ext_resource type="Script" uid="uid://comgodelutnps" path="res://scripts/components/cp_look.gd" id="1_frchf"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="2_exum4"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://dx62hdsswpsqh" path="res://scripts/dynamic_values/dv_input.gd" id="11_gdi3k"]
 [ext_resource type="Texture2D" uid="uid://vbsakpn4gu85" path="res://assets/textures/moneygun.png" id="12_ebplh"]
 [ext_resource type="Script" uid="uid://dnog3jll3kr3h" path="res://scripts/components/cp_particle.gd" id="13_exum4"]
+[ext_resource type="PackedScene" uid="uid://nkrp1l62grlt" path="res://scenes/particles/shot.tscn" id="14_mgpht"]
 
 [node name="DimeGun" type="Node2D"]
 script = ExtResource("1_frchf")
@@ -90,6 +91,8 @@ texture_filter = 1
 position = Vector2(15, 1)
 texture = ExtResource("12_ebplh")
 
-[node name="ParticleComponent" type="Node2D" parent="."]
+[node name="ShootParticle" type="Node2D" parent="." node_paths=PackedStringArray("condition")]
 position = Vector2(23, 0)
 script = ExtResource("13_exum4")
+particle = ExtResource("14_mgpht")
+condition = NodePath("../BulletSpawner/FireInput")

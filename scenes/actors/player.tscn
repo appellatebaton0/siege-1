@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://du1n8cl1rn58r"]
+[gd_scene load_steps=34 format=3 uid="uid://du1n8cl1rn58r"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_h5w3c"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_0878f"]
@@ -6,15 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="4_dferu"]
 [ext_resource type="Script" uid="uid://b08hg2i6n1vvx" path="res://scripts/components/motion_subcomponents/mcp_knockback.gd" id="4_uqfkb"]
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="5_t62v4"]
+[ext_resource type="Script" uid="uid://ci1ipf7vnsa63" path="res://scripts/components/area_components/acp_knockback.gd" id="7_afsss"]
 [ext_resource type="PackedScene" uid="uid://208ojfrjlttc" path="res://scenes/components/cp_animatedsprite.tscn" id="7_ypltb"]
 [ext_resource type="Texture2D" uid="uid://b8ih17o0gi778" path="res://assets/textures/player.png" id="8_nmlhc"]
 [ext_resource type="PackedScene" uid="uid://pq5hohriaemg" path="res://scenes/actors/guns/dime_gun.tscn" id="8_ypltb"]
 [ext_resource type="Script" uid="uid://bibj6mktsnd8n" path="res://scripts/dynamic_values/condition/dc_not.gd" id="10_dferu"]
-[ext_resource type="Script" path="res://scripts/dynamic_values/float/df_vector.gd" id="10_h5w3c"]
+[ext_resource type="Script" uid="uid://bsd2u0vt62p7p" path="res://scripts/dynamic_values/float/df_vector.gd" id="10_h5w3c"]
 [ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="11_6xqls"]
-[ext_resource type="Script" path="res://scripts/dynamic_values/vec2/dv2_cast.gd" id="11_0878f"]
+[ext_resource type="Script" uid="uid://dc01byv28y07a" path="res://scripts/dynamic_values/vec2/dv2_cast.gd" id="11_0878f"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="12_3hvrq"]
-[ext_resource type="Script" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="12_0878f"]
+[ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="12_0878f"]
 [ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="14_0878f"]
 [ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="15_dferu"]
 [ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="16_642so"]
@@ -150,6 +151,13 @@ metadata/_custom_type_script = "uid://cjxtdojc775br"
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_tbgi4")
 
+[node name="KnockbackAreaSubComponent" type="Node" parent="CP_Area"]
+script = ExtResource("7_afsss")
+amount = 200.0
+cooldown = 0.5
+collision_mask = 4
+metadata/_custom_type_script = "uid://ci1ipf7vnsa63"
+
 [node name="CP_AnimatedSprite" parent="." node_paths=PackedStringArray("condition_ties", "flip_h_condition") instance=ExtResource("7_ypltb")]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_6xqls")
@@ -208,7 +216,7 @@ metadata/_custom_type_script = "uid://vflwvin64hae"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("14_0878f")
-health = 5.05
+health = 5.03
 metadata/_custom_type_script = "uid://cvvlcumbxn8pb"
 
 [node name="FreeComponent" type="Node" parent="."]

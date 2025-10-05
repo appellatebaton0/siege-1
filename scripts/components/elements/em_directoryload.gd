@@ -26,6 +26,9 @@ func _init():
 var to_be_parented:Array[Node]
 
 func _ready() -> void:
+	directory_path = directory_path.replace(".remap", "")
+	directory_path = directory_path.replace(".import", "")
+	
 	for child in get_children():
 		if child is ModArgumentComponent:
 			modifiers.append(child)
@@ -40,6 +43,9 @@ func _ready() -> void:
 		while file_name != "": # While there are files left
 			# As long as it isn't a directory
 			if !dir.current_is_dir(): 
+				
+				file_name = file_name.replace(".remap", "")
+				file_name = file_name.replace(".import", "")
 				
 				var new
 				if load_from_directory: ## Load the file itself

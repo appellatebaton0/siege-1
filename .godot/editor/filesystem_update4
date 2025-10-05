@@ -9,3 +9,11 @@ res://scripts/components/damage/cp_damage.gd
 res://scenes/main.tscn
 res://scripts/components/cp_particle.gd
 res://README.md
+res://scenes/particles/shot.tscn
+res://scenes/particles/dime_hit.tscn
+res://scenes/actors/enemies/microwave.tscn
+res://scripts/components/cp_area.gd
+res://scenes/actors/player.tscn
+res://scenes/levels/level_3.tscn
+res://scenes/actors/mouse.tscn
+res://scripts/components/elements/em_directoryload.gd

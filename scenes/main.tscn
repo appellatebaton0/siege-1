@@ -415,6 +415,7 @@ grow_vertical = 2
 theme = ExtResource("1_tipki")
 
 [node name="StartScreen" type="Panel" parent="CanvasLayer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -476,6 +477,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LevelSelect" type="Panel" parent="CanvasLayer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -522,6 +524,7 @@ script = ExtResource("6_tefeu")
 script = ExtResource("7_o6xl0")
 pass_file_modifiers = [NodePath("PassScene")]
 pass_index_modifiers = [NodePath("PassIndex")]
+load_from_back = true
 loading_scene = ExtResource("6_tipki")
 directory_path = "res://scenes/levels"
 
@@ -533,6 +536,7 @@ script = ExtResource("6_ya4ey")
 index = 1
 
 [node name="LevelFailed" type="Panel" parent="CanvasLayer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -602,6 +606,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LevelWon" type="Panel" parent="CanvasLayer/Control"]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -703,7 +708,26 @@ script = ExtResource("10_ya4ey")
 group_name = "Level"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
+[node name="OnFinish2" type="Node" parent="CanvasLayer/Control/AnimationPlayer"]
+script = ExtResource("8_tipki")
+animation = "won_level"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/Control/AnimationPlayer/OnFinish2" node_paths=PackedStringArray("node")]
+script = ExtResource("6_85g3d")
+node = NodePath("../..")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="DeleteComponent" type="Node" parent="CanvasLayer/Control/AnimationPlayer/OnFinish2"]
+script = ExtResource("9_choun")
+metadata/_custom_type_script = "uid://bf81f7ddjf4ou"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CanvasLayer/Control/AnimationPlayer/OnFinish2/DeleteComponent"]
+script = ExtResource("10_ya4ey")
+group_name = "Level"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
 [connection signal="pressed" from="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button" to="CanvasLayer/Control/StartScreen/MarginContainer/VBoxContainer/Button/Animator" method="animate"]
 [connection signal="pressed" from="CanvasLayer/Control/LevelFailed/MarginContainer/VBoxContainer/Button" to="CanvasLayer/Control/LevelFailed/MarginContainer/VBoxContainer/Button/Animator" method="animate"]
 [connection signal="pressed" from="CanvasLayer/Control/LevelWon/MarginContainer/VBoxContainer/Button" to="CanvasLayer/Control/LevelWon/MarginContainer/VBoxContainer/Button/Animator" method="animate"]
 [connection signal="finished" from="CanvasLayer/Control/AnimationPlayer/OnFinish" to="CanvasLayer/Control/AnimationPlayer/OnFinish/DeleteComponent" method="delete"]
+[connection signal="finished" from="CanvasLayer/Control/AnimationPlayer/OnFinish2" to="CanvasLayer/Control/AnimationPlayer/OnFinish2/DeleteComponent" method="delete"]
